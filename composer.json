@@ -1,0 +1,19 @@
+{
+  "name": "mgazdzik/plugin-ShortcodeTracker",
+  "type": "piwik-plugin",
+  "description": "Piwik plugin allowing user to create shortcodes and track their usage within Piwik. Also integrates with UI to deliver more user-friendly interaction.",
+  "keywords": ["shortcode","shortener","tracker"],
+  "homepage": "http://mgazdzik.pl",
+  "license": "LGPL-3.0+",
+  "authors": [
+    {
+      "name": "Michał Gaździk",
+      "email": "michal@mgazdzik.pl",
+      "homepage": "http://mgazdzik.pl"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.2",
+    "piwik/piwik": "~2.13.0"
+  }
+}

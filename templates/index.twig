@@ -1,0 +1,28 @@
+{% block content %}
+    <div>
+        <h2 piwik-enriched-headline>{{ 'ShortcodeTracker_generate_shortcode_header'|translate }}</h2>
+
+        <form>
+            <div class="form-group">
+                <label for="url_to_shorten">{{ 'ShortcodeTracker_input_url'|translate }}</label>
+
+                <div class="form-help">{{ 'ShortcodeTracker_url_to_shorten'|translate }}</div>
+                <input id="url_to_shorten" value="http://google.com"/>
+
+                <div class="form-help">{{ 'ShortcodeTracker_use_existing_shortcode_help'|translate }}</div>
+                <label class="radio">
+                    <input type="checkbox" id="useExistingShortcodeIfAvailable" />
+                    {{ 'ShortcodeTracker_use_existing_shortcode_if_available'|translate }}
+                </label>
+
+
+            </div>
+            <button type="button"
+                    id="url_to_shorten_submit">{{ 'ShortcodeTracker_generate_shortcode'|translate }}</button>
+        </form>
+    </div>
+    {% import 'ajaxMacros.twig' as ajax %}
+    {{ ajax.errorDiv('ajaxErrorShortcodeTrakcer') }}
+    {{ ajax.loadingDiv('ajaxLoadingShortcodeTracker') }}
+
+{% endblock %}
