@@ -68,6 +68,10 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Changelog
 
+* added Travis build badges for master and develop branches
+* fixed existing unit tests
+* slight refactor in terms of class naming
+
 * 0.1.0
     * API allowing to create and retrieve shortcodes,
     * basic storage in MySQL, but possible to add other caching layers - for ex. Memcache, Redis,
