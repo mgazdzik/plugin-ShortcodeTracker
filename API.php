@@ -11,7 +11,7 @@ namespace Piwik\Plugins\ShortcodeTracker;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
-use Piwik\Plugins\ShortcodeTracker\Component\Cache;
+use Piwik\Plugins\ShortcodeTracker\Component\ShortcodeCache;
 use Piwik\Plugins\ShortcodeTracker\Component\Generator;
 use Piwik\Plugins\ShortcodeTracker\Component\NoCache;
 use Piwik\Plugins\ShortcodeTracker\Component\ShortcodeValidator;
@@ -37,7 +37,7 @@ class API extends \Piwik\Plugin\API
     private $urlValidator = null;
 
     /**
-     * @var Cache
+     * @var ShortcodeCache
      */
     private $cache = null;
 
@@ -92,7 +92,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @hideForAll
      *
-     * @return Cache
+     * @return ShortcodeCache
      */
     public function getCache()
     {
@@ -107,7 +107,7 @@ class API extends \Piwik\Plugin\API
      * @hideForAll
      * @param Cache @cache
      */
-    public function setCache(Cache $cache)
+    public function setCache(ShortcodeCache $cache)
     {
         $this->cache = $cache;
     }
