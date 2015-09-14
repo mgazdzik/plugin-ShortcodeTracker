@@ -10,7 +10,7 @@ namespace Piwik\Plugins\ShortcodeTracker\Component;
 
 use Piwik\Plugins\ShortcodeTracker\Model\Model;
 
-abstract class Cache
+abstract class ShortcodeCache
 {
 
     /**
@@ -22,7 +22,6 @@ abstract class Cache
     {
         $this->shortcodeModel = $shortcodeModel;
     }
-
 
     /**
      * @param string $code
