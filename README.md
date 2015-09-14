@@ -2,8 +2,8 @@
 
 | Branch | Status |
 | --- | --- |
-| Master | [![Build Status](https://travis-ci.org/piwik/plugin-QueuedTracking.svg?branch=master)](https://travis-ci.org/piwik/plugin-QueuedTracking) |
-| Develop | [![Build Status](https://travis-ci.org/piwik/plugin-QueuedTracking.svg?branch=develop)](https://travis-ci.org/piwik/plugin-QueuedTracking/tree/develop) |
+| Master | [![Build Status](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker.svg?branch=master)](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker) |
+| Develop | [![Build Status](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker.svg?branch=develop)](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker) |
 
 ## Description
 
