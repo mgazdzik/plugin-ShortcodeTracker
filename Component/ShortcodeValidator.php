@@ -39,6 +39,10 @@ class ShortcodeValidator extends Validator
 
     private function checkAlphaNumerical($value)
     {
+        if(is_int($value)){
+            return false;
+        }
+        
         if (preg_match('/^[a-zA-Z0-9._]+$/', $value)) {
             return true;
         }
