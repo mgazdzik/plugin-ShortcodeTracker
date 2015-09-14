@@ -42,6 +42,11 @@ class API extends \Piwik\Plugin\API
     private $cache = null;
 
     /**
+     * @var Generator
+     */
+    private $generator = null;
+
+    /**
      * @hideForAll
      *
      * @return Model
@@ -113,6 +118,27 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @return Generator
+     */
+    public function getGenerator()
+    {
+        if($this->generator === null){
+            $this->generator = new Generator($this->getModel(), $this->getUrlValidator());
+        }
+        return $this->generator;
+    }
+
+    /**
+     * @param Generator $generator
+     */
+    public function setGenerator($generator)
+    {
+        $this->generator = $generator;
+    }
+
+
+
+    /**
      * @param $url
      * @param $useExistingCodeIfAvailable
      *
@@ -147,7 +173,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($shortcode === false) {
-            $generator = new Generator($this->getModel(), $this->getUrlValidator());
+            $generator = $this->getGenerator();
             $shortcode = $generator->generateShortcode($url);
 
             if ($shortcode === false) {

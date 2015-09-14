@@ -13,7 +13,7 @@ use Piwik\Plugins\ShortcodeTracker\Model\Model;
 class ShortcodeTracker extends \Piwik\Plugin
 {
 
-    const DEFAULT_SHORTENER_URL = 'http://changemeL.com';
+    const DEFAULT_SHORTENER_URL = 'http://changeme.com';
     const SHORTENER_URL_SETTING = 'shortener_url';
 
     public function install()
