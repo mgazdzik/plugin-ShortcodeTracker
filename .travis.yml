@@ -118,7 +118,7 @@ after_script:
   - cat $PIWIK_ROOT_DIR/config/config.ini.php
 
   # upload test artifacts (for debugging travis failures)
-  - ./tests/travis/upload_artifacts.sh
+#  - ./tests/travis/upload_artifacts.sh
 
 after_success:
   - cd $PIWIK_ROOT_DIR
