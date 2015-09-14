@@ -4,7 +4,7 @@
     "description": "Plugin allowing user to create shortcodes and track their usage within Piwik. Also integrates with UI to deliver more user-friendly interaction.",
     "theme": false,
     "require": {
-        "piwik": ">=2.13.0"
+        "piwik": ">=2.14.0"
     },
     "authors": [
         {
