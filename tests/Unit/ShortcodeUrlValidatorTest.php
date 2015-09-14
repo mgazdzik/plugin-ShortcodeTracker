@@ -15,7 +15,7 @@ use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
  * @group UrlValidator
  * @group Plugins
  */
-class UrlValidatorTest extends \PHPUnit_Framework_TestCase
+class ShortcodeUrlValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var UrlValidator
