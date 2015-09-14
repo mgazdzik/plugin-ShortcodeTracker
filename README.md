@@ -1,5 +1,10 @@
 # ShortcodeTracker Plugin
 
+| Branch | Status |
+| --- | --- |
+| Master | [![Build Status](https://travis-ci.org/piwik/plugin-QueuedTracking.svg?branch=master)](https://travis-ci.org/piwik/plugin-QueuedTracking) |
+| Develop | [![Build Status](https://travis-ci.org/piwik/plugin-QueuedTracking.svg?branch=develop)](https://travis-ci.org/piwik/plugin-QueuedTracking/tree/develop) |
+
 ## Description
 
 Plugin allows to turn Piwik instance into URL Shortener.
@@ -73,6 +78,7 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Backlog
 
+* add more tests and integrate with CI environment
 * Add performance report for each shortcode
     * mark pageviews\visits originating with shortcode
     * aggregate statistics
@@ -84,7 +90,7 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 * Improve HTML designs/styles
 * Throw exception in case Shortener URL is not changed
 * Introduce Shortener URL validation
-* add more tests
+* introduce value object to store Shortcode
 
 
 ## Support
@@ -93,5 +99,5 @@ Please direct any feedback regarding plugin to Github repository issue tracker a
 [https://github.com/mgazdzik/plugin-ShortcodeTracker/issues](https://github.com/mgazdzik/plugin-ShortcodeTracker/issues).
 
 ## Credits
-Scissors icon visible in Actions report is originating from 
+Scissors icon visible in Actions report is originating from
 [https://icons8.com/](https://icons8.com/).

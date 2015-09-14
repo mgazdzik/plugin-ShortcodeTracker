@@ -9,7 +9,7 @@
 namespace Piwik\Plugins\ShortcodeTracker\Component;
 
 
-class NoCache extends Cache
+class NoCache extends ShortcodeCache
 {
     /**
      * @param string $code
