@@ -2,8 +2,8 @@
 
 | Branch | Status |
 | --- | --- |
-| Master | [![Build Status](https://travis-ci.org/piwik/plugin-QueuedTracking.svg?branch=master)](https://travis-ci.org/piwik/plugin-QueuedTracking) |
-| Develop | [![Build Status](https://travis-ci.org/piwik/plugin-QueuedTracking.svg?branch=develop)](https://travis-ci.org/piwik/plugin-QueuedTracking/tree/develop) |
+| Master | [![Build Status](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker.svg?branch=master)](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker) |
+| Develop | [![Build Status](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker.svg?branch=develop)](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker) |
 
 ## Description
 
@@ -61,6 +61,7 @@ After you confirm that plugin has been enabled:
 * go to Administration -> Plugin Settings,
 * go to ShortcodeTracker section,
 * fill in Shortener URL input,
+* add more tests and integrate with CI environment
 * click 'save',
 * additionally you have to make Shortener URL a trusted host for Piwik by entering it in settings section,
 
@@ -68,9 +69,11 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Changelog
 
-* added Travis build badges for master and develop branches
-* fixed existing unit tests
-* slight refactor in terms of class naming
+* 0.2.0
+    * added Travis build badges for master and develop branches
+    * fixed existing unit tests
+    * slight refactor in terms of class naming
+    * added integration test for API methods
 
 * 0.1.0
     * API allowing to create and retrieve shortcodes,
@@ -82,7 +85,6 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Backlog
 
-* add more tests and integrate with CI environment
 * Add performance report for each shortcode
     * mark pageviews\visits originating with shortcode
     * aggregate statistics
@@ -93,7 +95,7 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 * Add support for at least one caching system (redis/memcache)
 * Improve HTML designs/styles
 * Throw exception in case Shortener URL is not changed
-* Introduce Shortener URL validation
+* Introduce Shortener base URL validation (in Settings section)
 * introduce value object to store Shortcode
 
 

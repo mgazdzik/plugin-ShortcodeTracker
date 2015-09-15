@@ -11,9 +11,9 @@ namespace Piwik\Plugins\ShortcodeTracker;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
-use Piwik\Plugins\ShortcodeTracker\Component\ShortcodeCache;
 use Piwik\Plugins\ShortcodeTracker\Component\Generator;
 use Piwik\Plugins\ShortcodeTracker\Component\NoCache;
+use Piwik\Plugins\ShortcodeTracker\Component\ShortcodeCache;
 use Piwik\Plugins\ShortcodeTracker\Component\ShortcodeValidator;
 use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
 use Piwik\Plugins\ShortcodeTracker\Exception\UnableToRedirectException;
@@ -40,6 +40,17 @@ class API extends \Piwik\Plugin\API
      * @var ShortcodeCache
      */
     private $cache = null;
+
+    /**
+     * @var Generator
+     */
+    private $generator = null;
+
+    /**
+     * @var Settings
+     */
+    private $pluginSettings = null;
+
 
     /**
      * @hideForAll
@@ -113,6 +124,48 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @hideForAll
+     * @return Generator
+     */
+    public function getGenerator()
+    {
+        if ($this->generator === null) {
+            $this->generator = new Generator($this->getModel(), $this->getUrlValidator());
+        }
+
+        return $this->generator;
+    }
+
+    /**
+     * @hideForAll
+     * @param Generator $generator
+     */
+    public function setGenerator($generator)
+    {
+        $this->generator = $generator;
+    }
+
+    /**
+     * @return Settings
+     */
+    public function getPluginSettings()
+    {
+        if ($this->pluginSettings === null) {
+            $this->pluginSettings = new Settings('ShortcodeTracker');
+        }
+
+        return $this->pluginSettings;
+    }
+
+    /**
+     * @param Settings $pluginSettings
+     */
+    public function setPluginSettings($pluginSettings)
+    {
+        $this->pluginSettings = $pluginSettings;
+    }
+
+    /**
      * @param $url
      * @param $useExistingCodeIfAvailable
      *
@@ -120,7 +173,7 @@ class API extends \Piwik\Plugin\API
      */
     public function generateShortenedUrl($url, $useExistingCodeIfAvailable = false)
     {
-        $settings = new Settings('ShortcodeTracker');
+        $settings = $this->getPluginSettings();
         $baseUrl = $settings->getSetting(ShortcodeTracker::SHORTENER_URL_SETTING);
 
         $response = $this->generateShortcodeForUrl($url, $useExistingCodeIfAvailable);
@@ -147,7 +200,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($shortcode === false) {
-            $generator = new Generator($this->getModel(), $this->getUrlValidator());
+            $generator = $this->getGenerator();
             $shortcode = $generator->generateShortcode($url);
 
             if ($shortcode === false) {

@@ -66,7 +66,7 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
 
     private function getModelMockForUniqueTest()
     {
-        $mock = $this->getMockBuilder(Model::class)
+        $mock = $this->getMockBuilder('Piwik\Plugins\ShortcodeTracker\Model\Model')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -90,7 +90,7 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     private function getModelMockWithResponse($response)
     {
-        $mock = $this->getMockBuilder(Model::class)
+        $mock = $this->getMockBuilder('Piwik\Plugins\ShortcodeTracker\Model\Model')
             ->disableOriginalConstructor()
             ->setMethods(array('selectShortcodeByCode'))
             ->getMock();
