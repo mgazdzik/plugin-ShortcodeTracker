@@ -61,6 +61,7 @@ After you confirm that plugin has been enabled:
 * go to Administration -> Plugin Settings,
 * go to ShortcodeTracker section,
 * fill in Shortener URL input,
+* add more tests and integrate with CI environment
 * click 'save',
 * additionally you have to make Shortener URL a trusted host for Piwik by entering it in settings section,
 

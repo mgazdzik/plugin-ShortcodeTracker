@@ -12,6 +12,8 @@ use Piwik\Plugins\ShortcodeTracker\API;
 use Piwik\Plugins\ShortcodeTracker\Component\Generator;
 use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
 use Piwik\Plugins\ShortcodeTracker\Model\Model;
+use Piwik\Plugins\ShortcodeTracker\Settings;
+use Piwik\Plugins\ShortcodeTracker\ShortcodeTracker;
 
 /**
  * @group ShortcodeTracker
@@ -42,6 +44,16 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
         $expected = 'http://changeme.com/123abc';
         $this->api->setGenerator($this->getGeneratorMock('generateShortcode', '123abc'));
 
+        /** @var Settings $pluginSettingsMock */
+        $pluginSettingsMock = $this->getMock(Settings::class);
+
+        $pluginSettingsMock->expects($this->once())
+            ->method('getSetting')
+            ->with(ShortcodeTracker::SHORTENER_URL_SETTING)
+            ->willReturn(ShortcodeTracker::DEFAULT_SHORTENER_URL);
+
+        $this->api->setPluginSettings($pluginSettingsMock);
+
         $actual = $this->api->generateShortenedUrl('http://foo.bar');
         $this->assertEquals($expected, $actual);
     }
@@ -49,6 +61,7 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
     public function testGenerateShortcodeForUrl()
     {
         $expected = 'abc123';
+
         $this->api->setGenerator($this->getGeneratorMock('generateShortcode', $expected));
 
         $actual = $this->api->generateShortcodeForUrl('http://foo.bar');
@@ -142,6 +155,11 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
     }
 
 
+    /**
+     * @param $methodName
+     * @param $returnValue
+     * @return Generator
+     */
     private function getGeneratorMock($methodName, $returnValue)
     {
         $generatorMock = $this->getMockBuilder(Generator::class)->disableOriginalConstructor()->getMock();
