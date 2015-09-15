@@ -69,7 +69,6 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Changelog
 
-
 * 0.2.0
     * added Travis build badges for master and develop branches
     * fixed existing unit tests
