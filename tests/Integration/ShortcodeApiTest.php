@@ -45,7 +45,7 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
         $this->api->setGenerator($this->getGeneratorMock('generateShortcode', '123abc'));
 
         /** @var Settings $pluginSettingsMock */
-        $pluginSettingsMock = $this->getMock(Settings::class);
+        $pluginSettingsMock = $this->getMock('Piwik\Plugins\ShortcodeTracker\Settings');
 
         $pluginSettingsMock->expects($this->once())
             ->method('getSetting')
@@ -97,7 +97,7 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
 
     private function initializeModelMock()
     {
-        $mock = $this->getMockBuilder(Model::class)->disableOriginalConstructor()->getMock();
+        $mock = $this->getMockBuilder('Piwik\Plugins\ShortcodeTracker\Model\Model')->disableOriginalConstructor()->getMock();
 
         $this->modelMock = $mock;
     }
@@ -162,7 +162,7 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
      */
     private function getGeneratorMock($methodName, $returnValue)
     {
-        $generatorMock = $this->getMockBuilder(Generator::class)->disableOriginalConstructor()->getMock();
+        $generatorMock = $this->getMockBuilder('Piwik\Plugins\ShortcodeTracker\Component\Generator')->disableOriginalConstructor()->getMock();
         $generatorMock->expects($this->once())
             ->method($methodName)
             ->willReturn($returnValue);
