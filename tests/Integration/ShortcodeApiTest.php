@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\ShortcodeTracker\tests\Unit;
 
+use Piwik\Access;
 use Piwik\Plugins\ShortcodeTracker\API;
 use Piwik\Plugins\ShortcodeTracker\Component\Generator;
 use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
@@ -37,6 +38,7 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
         $this->initializeModelMock();
         $this->api = new API();
         $this->api->setModel($this->modelMock);
+        Access::getInstance()->setSuperUserAccess(true);
     }
 
     public function testGenerateShortenedUrl()

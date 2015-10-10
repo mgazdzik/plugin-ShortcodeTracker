@@ -64,6 +64,15 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals($actual[0], $actual[1]);
     }
 
+    public function testIsUrlInternal(){
+        $modelMock       = $this->getModelMockWithResponse('');
+        $urlValidator    = new UrlValidator();
+        $this->component = new Generator($modelMock, $urlValidator);
+
+        $this->component->isUrlInternal('http://foo.bar');
+        $this->assertTrue(1);
+    }
+
     private function getModelMockForUniqueTest()
     {
         $mock = $this->getMockBuilder('Piwik\Plugins\ShortcodeTracker\Model\Model')

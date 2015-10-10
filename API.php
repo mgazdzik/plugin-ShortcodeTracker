@@ -18,6 +18,7 @@ use Piwik\Plugins\ShortcodeTracker\Component\ShortcodeValidator;
 use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
 use Piwik\Plugins\ShortcodeTracker\Exception\UnableToRedirectException;
 use Piwik\Plugins\ShortcodeTracker\Model\Model;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  * API for plugin ShortcodeTracker
@@ -45,6 +46,11 @@ class API extends \Piwik\Plugin\API
      * @var Generator
      */
     private $generator = null;
+
+    /**
+     * @var SitesManagerAPI
+     */
+    private $sitesManagerAPI = null;
 
     /**
      * @var Settings
@@ -116,6 +122,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
+     *
      * @param Cache @cache
      */
     public function setCache(ShortcodeCache $cache)
@@ -130,7 +137,7 @@ class API extends \Piwik\Plugin\API
     public function getGenerator()
     {
         if ($this->generator === null) {
-            $this->generator = new Generator($this->getModel(), $this->getUrlValidator());
+            $this->generator = new Generator($this->getModel(), $this->getUrlValidator(), $this->gerSitesManagerAPI());
         }
 
         return $this->generator;
@@ -138,6 +145,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
+     *
      * @param Generator $generator
      */
     public function setGenerator($generator)
@@ -146,6 +154,8 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @hideForAll
+     *
      * @return Settings
      */
     public function getPluginSettings()
@@ -158,11 +168,38 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @hideForAll
+     *
      * @param Settings $pluginSettings
      */
     public function setPluginSettings($pluginSettings)
     {
         $this->pluginSettings = $pluginSettings;
+    }
+
+
+    /**
+     * @hideForAll
+     *
+     * @return SitesManagerAPI
+     */
+    public function getSitesManagerAPI()
+    {
+        if ($this->sitesManagerAPI === null) {
+            $this->sitesManagerAPI = SitesManagerAPI::getInstance();
+        }
+
+        return $this->sitesManagerAPI;
+    }
+
+    /**
+     * @hideForAll
+     *
+     * @param SitesManagerAPI $sitesManagerAPI
+     */
+    public function setSitesManagerAPI($sitesManagerAPI)
+    {
+        $this->sitesManagerAPI = $sitesManagerAPI;
     }
 
     /**
@@ -189,6 +226,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @param            $url
      * @param bool|false $useExistingCodeIfAvailable
+     *
      * @return bool|string
      */
     public function generateShortcodeForUrl($url, $useExistingCodeIfAvailable = false)
@@ -202,6 +240,7 @@ class API extends \Piwik\Plugin\API
         if ($shortcode === false) {
             $generator = $this->getGenerator();
             $shortcode = $generator->generateShortcode($url);
+            $isShortcodeInternal = $generator->isUrlInternal($url);
 
             if ($shortcode === false) {
                 return Piwik::translate('ShortcodeTracker_unable_to_generate_shortcode');
@@ -216,6 +255,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param $code
+     *
      * @return string
      */
     public function getUrlFromShortcode($code)
@@ -227,6 +267,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param $code
+     *
      * @throws UnableToRedirectException
      */
     public function performRedirectForShortcode($code)
@@ -237,9 +278,8 @@ class API extends \Piwik\Plugin\API
             throw new UnableToRedirectException(Piwik::translate('ShortcodeTracker_unable_to_perform_redirect'));
         }
 
-        $_COOKIE['dupa'] = 'piw.is';
         header('HTTP/1.1 301 Moved Permanently');
-        header('Location: '.$targetUrl);
+        header('Location: ' . $targetUrl);
     }
 
 }
