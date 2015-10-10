@@ -122,10 +122,13 @@ class Generator
     public function isUrlInternal($url)
     {
         $allSites = $this->sitesManager->getAllSites();
-die($allSites);die('a');
-        foreach($allSites as $site)
-        {
-            var_dump($site);die;
+        foreach ($allSites as $site) {
+            if (strpos($url, $site['main_url']) !== false) {
+                return true;
+            }
         }
+
+
+        return false;
     }
 }
