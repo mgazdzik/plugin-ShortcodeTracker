@@ -69,6 +69,8 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Changelog
 
+    * secured API methods with minimal of view access    
+    
 * 0.2.0
     * added Travis build badges for master and develop branches
     * fixed existing unit tests
