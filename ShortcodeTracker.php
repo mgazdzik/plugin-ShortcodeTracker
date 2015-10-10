@@ -26,9 +26,10 @@ class ShortcodeTracker extends \Piwik\Plugin
     {
         return array(
             'API.DocumentationGenerator.@hideForAll' => 'hideForAll',
-            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
+            'Tracker.newVisitorInformation' => 'debug',
         );
     }
 
@@ -53,5 +54,10 @@ class ShortcodeTracker extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/ShortcodeTracker/stylesheets/styles.less";
+    }
+
+    public function debug($visitorInfo, $request)
+    {
+        var_dump($visitorInfo, $request);
     }
 }

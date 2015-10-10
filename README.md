@@ -69,6 +69,13 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Changelog
 
+* tuned travis build file
+* Add shortcode report for internally tracked URLs
+    * create new visit during redirect (store referrer)
+    * add custom type action like 'shortcode_redirect'
+    * aggregate log_link_visit_action logs to pull out mostly visited shortcodes :)
+    * mark shortcodes as internal during their generation
+
 * 0.2.0
     * added Travis build badges for master and develop branches
     * fixed existing unit tests

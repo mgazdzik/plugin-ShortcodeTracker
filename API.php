@@ -237,7 +237,9 @@ class API extends \Piwik\Plugin\API
             throw new UnableToRedirectException(Piwik::translate('ShortcodeTracker_unable_to_perform_redirect'));
         }
 
-        header('Location: ' . $targetUrl, false, 302);
+        $_COOKIE['dupa'] = 'piw.is';
+        header('HTTP/1.1 301 Moved Permanently');
+        header('Location: '.$targetUrl);
     }
 
 }
