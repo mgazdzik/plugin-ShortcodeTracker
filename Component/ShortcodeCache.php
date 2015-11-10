@@ -25,41 +25,39 @@ abstract class ShortcodeCache
 
     /**
      * @param string $code
+     *
      * @return string|null
      */
-    abstract protected function getUrlFromCache($code);
+    abstract protected function getShortcodeFromCache($code);
 
     /**
      * @param string $code
      * @param string $url
      */
-    abstract protected function storeUrlForCodeInCache($code, $url);
+    abstract protected function storeShortcodeInCache($code, $url);
 
     /**
      * @param string $code
-     * @return string $url
+     *
+     * @return array
      */
-    public function getRedirectUrlForShortcode($code)
+    public function getShortcode($code)
     {
-        $url = $this->getUrlFromCache($code);
-        if ($url === null) {
-            $modelUrl = $this->getUrlFromModel($code);
+        $shortcode = $this->getShortcodeFromCache($code);
+        if ($shortcode === null) {
+            $shortcode = $this->getUrlFromModel($code);
 
-            if ($modelUrl !== null) {
-                $this->storeUrlForCodeInCache($code, $modelUrl);
-                $url = $modelUrl;
+            if (isset($shortcode['url'])) {
+                $this->storeShortcodeInCache($code, $shortcode);
             }
         }
 
-
-        return $url;
+        return $shortcode;
     }
 
     protected function getUrlFromModel($code)
     {
-        $result = $this->shortcodeModel->selectShortcodeByCode($code);
-
-        return $result['url'];
+        return $this->shortcodeModel->selectShortcodeByCode($code);
     }
 
 }

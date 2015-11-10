@@ -119,12 +119,12 @@ class Generator
      *
      * @return bool
      */
-    public function isUrlInternal($url)
+    public function getIdSiteForUrl($url)
     {
         $allSites = $this->sitesManager->getAllSites();
         foreach ($allSites as $site) {
             if (strpos($url, $site['main_url']) !== false) {
-                return true;
+                return $site['idsite'];
             }
         }
 

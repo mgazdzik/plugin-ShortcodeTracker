@@ -15,6 +15,7 @@ use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
 use Piwik\Plugins\ShortcodeTracker\Model\Model;
 use Piwik\Plugins\ShortcodeTracker\Settings;
 use Piwik\Plugins\ShortcodeTracker\ShortcodeTracker;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  * @group ShortcodeTracker
@@ -33,12 +34,19 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
      */
     private $modelMock;
 
+    /**
+     * @var SitesManagerAPI
+     */
+    private $sitesManagerApi;
+
     public function setUp()
     {
+        Access::getInstance()->setSuperUserAccess(true);
         $this->initializeModelMock();
+        $this->initializeSitesManagerAPI();
         $this->api = new API();
         $this->api->setModel($this->modelMock);
-        Access::getInstance()->setSuperUserAccess(true);
+        $this->api->setSitesManagerAPI($this->sitesManagerApi);
     }
 
     public function testGenerateShortenedUrl()
@@ -78,7 +86,7 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
     public function testGenerateShortcodeForUrlException($invalidUrl)
     {
         $expected = 'ShortcodeTracker_unable_to_generate_shortcode';
-        $this->api->setGenerator(new Generator($this->modelMock, new UrlValidator()));
+        $this->api->setGenerator(new Generator($this->modelMock, new UrlValidator(), $this->sitesManagerApi));
 
         $actual = $this->api->generateShortcodeForUrl($invalidUrl);
 
@@ -102,6 +110,23 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
         $mock = $this->getMockBuilder('Piwik\Plugins\ShortcodeTracker\Model\Model')->disableOriginalConstructor()->getMock();
 
         $this->modelMock = $mock;
+    }
+
+    private function initializeSitesManagerAPI()
+    {
+        $mock = $this->getMockBuilder('Piwik\Plugins\SitesManager\API')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mock->expects($this->any())
+            ->method('getAllSites')
+            ->willReturn(array(
+                             array(
+                                 'idsite' => 1,
+                                 'main_url' => 'http://foo.bar',
+                             ),
+                         ));
+        $this->sitesManagerApi = $mock;
     }
 
     public function testGetUrlFromShortcode()
@@ -160,6 +185,7 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
     /**
      * @param $methodName
      * @param $returnValue
+     *
      * @return Generator
      */
     private function getGeneratorMock($methodName, $returnValue)

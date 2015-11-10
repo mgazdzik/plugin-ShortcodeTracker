@@ -11,6 +11,7 @@ namespace Piwik\Plugins\ShortcodeTracker;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
+use Piwik\Plugins\Events\API as EventsAPI;
 use Piwik\Plugins\ShortcodeTracker\Component\Generator;
 use Piwik\Plugins\ShortcodeTracker\Component\NoCache;
 use Piwik\Plugins\ShortcodeTracker\Component\ShortcodeCache;
@@ -30,33 +31,32 @@ class API extends \Piwik\Plugin\API
     /**
      * @var Model
      */
-    private $model = null;
+    private $model;
 
     /**
      * @var UrlValidator
      */
-    private $urlValidator = null;
+    private $urlValidator;
 
     /**
      * @var ShortcodeCache
      */
-    private $cache = null;
+    private $cache;
 
     /**
      * @var Generator
      */
-    private $generator = null;
+    private $generator;
 
     /**
      * @var SitesManagerAPI
      */
-    private $sitesManagerAPI = null;
+    private $sitesManagerAPI;
 
     /**
      * @var Settings
      */
-    private $pluginSettings = null;
-
+    private $pluginSettings;
 
     /**
      * @hideForAll
@@ -79,6 +79,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setModel($model)
     {
+        $this->checkUserNotAnonymous();
         $this->model = $model;
     }
 
@@ -103,6 +104,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setUrlValidator($urlValidator)
     {
+        $this->checkUserNotAnonymous();
         $this->urlValidator = $urlValidator;
     }
 
@@ -127,6 +129,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setCache(ShortcodeCache $cache)
     {
+        $this->checkUserNotAnonymous();
         $this->cache = $cache;
     }
 
@@ -136,8 +139,9 @@ class API extends \Piwik\Plugin\API
      */
     public function getGenerator()
     {
+        $this->checkUserNotAnonymous();
         if ($this->generator === null) {
-            $this->generator = new Generator($this->getModel(), $this->getUrlValidator(), $this->gerSitesManagerAPI());
+            $this->generator = new Generator($this->getModel(), $this->getUrlValidator(), $this->getSitesManagerAPI());
         }
 
         return $this->generator;
@@ -150,6 +154,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setGenerator($generator)
     {
+        $this->checkUserNotAnonymous();
         $this->generator = $generator;
     }
 
@@ -174,6 +179,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setPluginSettings($pluginSettings)
     {
+        $this->checkUserNotAnonymous();
         $this->pluginSettings = $pluginSettings;
     }
 
@@ -185,6 +191,8 @@ class API extends \Piwik\Plugin\API
      */
     public function getSitesManagerAPI()
     {
+        $this->checkUserNotAnonymous();
+
         if ($this->sitesManagerAPI === null) {
             $this->sitesManagerAPI = SitesManagerAPI::getInstance();
         }
@@ -199,6 +207,7 @@ class API extends \Piwik\Plugin\API
      */
     public function setSitesManagerAPI($sitesManagerAPI)
     {
+        $this->checkUserNotAnonymous();
         $this->sitesManagerAPI = $sitesManagerAPI;
     }
 
@@ -210,6 +219,7 @@ class API extends \Piwik\Plugin\API
      */
     public function generateShortenedUrl($url, $useExistingCodeIfAvailable = false)
     {
+        $this->checkUserNotAnonymous();
         $settings = $this->getPluginSettings();
         $baseUrl = $settings->getSetting(ShortcodeTracker::SHORTENER_URL_SETTING);
 
@@ -231,6 +241,7 @@ class API extends \Piwik\Plugin\API
      */
     public function generateShortcodeForUrl($url, $useExistingCodeIfAvailable = false)
     {
+        $this->checkUserNotAnonymous();
         $shortcode = false;
 
         if ($useExistingCodeIfAvailable === "true") {
@@ -240,13 +251,13 @@ class API extends \Piwik\Plugin\API
         if ($shortcode === false) {
             $generator = $this->getGenerator();
             $shortcode = $generator->generateShortcode($url);
-            $isShortcodeInternal = $generator->isUrlInternal($url);
+            $shortcodeIdsite = $generator->getIdSiteForUrl($url);
 
             if ($shortcode === false) {
                 return Piwik::translate('ShortcodeTracker_unable_to_generate_shortcode');
             }
 
-            $this->getModel()->insertShortcode($shortcode, $url, false);
+            $this->getModel()->insertShortcode($shortcode, $url, $shortcodeIdsite);
         }
 
         return $shortcode;
@@ -260,6 +271,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getUrlFromShortcode($code)
     {
+        $this->checkUserNotAnonymous();
         $shortcode = $this->getModel()->selectShortcodeByCode($code);
 
         return $shortcode ? $shortcode['url'] : Piwik::translate('ShortcodeTracker_invalid_shortcode');
@@ -272,14 +284,45 @@ class API extends \Piwik\Plugin\API
      */
     public function performRedirectForShortcode($code)
     {
-        $targetUrl = $this->getCache()->getRedirectUrlForShortcode($code);
+        $shortCode = $this->getCache()->getShortcode($code);
 
-        if ($targetUrl === null) {
+        Piwik::postEvent(ShortcodeTracker::TRACK_REDIRECT_VISIT_EVENT, array($shortCode));
+
+        if ($shortCode === null) {
             throw new UnableToRedirectException(Piwik::translate('ShortcodeTracker_unable_to_perform_redirect'));
         }
 
-        header('HTTP/1.1 301 Moved Permanently');
-        header('Location: ' . $targetUrl);
+//        header('HTTP/1.1 301 Moved Permanently');
+        header('Location: ' . $shortCode['url']);
     }
 
+
+    public function getShortcodeUsageReport($idSite, $period, $date, $segment = false, $columns = false)
+    {
+        $this->checkUserNotAnonymous();
+        $eventsApi = EventsAPI::getInstance();
+
+        $eventReport = $eventsApi
+            ->getCategory($idSite, $period, $date, $segment);
+
+        if ($eventReport->getRowsCount() === 0) {
+            return new DataTable();
+        }
+
+        $shortcodeReportIdSubtable = $eventReport
+            ->getRowFromLabel(ShortcodeTracker::REDIRECT_EVENT_CATEGORY)
+            ->getIdSubDataTable();
+
+        if ($shortcodeReportIdSubtable) {
+            return $eventsApi->getNameFromCategoryId($idSite, $period, $date, $shortcodeReportIdSubtable);
+        }
+
+        return false;
+    }
+
+
+    protected function checkUserNotAnonymous()
+    {
+        Piwik::checkUserIsNotAnonymous();
+    }
 }

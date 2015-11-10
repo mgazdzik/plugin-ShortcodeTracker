@@ -21,6 +21,11 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
+    public function getShortcodeUsageReport()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
     public function showShortcodePopup()
     {
         $shortcode = Common::getRequestVar('shortcode');

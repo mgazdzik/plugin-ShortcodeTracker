@@ -25,7 +25,7 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param $url
-     * @param $expected
+     * @param $modelMockValue
      *
      * @dataProvider generateShortcodeProvider
      */
@@ -66,15 +66,15 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals($actual[0], $actual[1]);
     }
 
-    public function testIsUrlInternal()
+    public function testGetIdSiteForUrl()
     {
         $modelMock = $this->getModelMockWithResponse('');
         $urlValidator = new UrlValidator();
         $sitesManagerAPI = $this->getSitesManagerAPIMock();
         $this->component = new Generator($modelMock, $urlValidator, $sitesManagerAPI);
 
-        $this->component->isUrlInternal('http://foo.bar');
-        $this->assertTrue(1);
+        $idsite = $this->component->getIdSiteForUrl('https://bar.foo');
+        $this->assertEquals(2, $idsite);
     }
 
     private function getModelMockForUniqueTest()
@@ -122,8 +122,8 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $sitesCollection = array(
-            array('main_url' => 'http://foo.bar'),
-            array('main_url' => 'https://bar.foo'),
+            array('idsite' => 1, 'main_url' => 'http://foo.bar'),
+            array('idsite' => 2, 'main_url' => 'https://bar.foo'),
         );
 
         $mock->expects($this->any())
