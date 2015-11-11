@@ -7,6 +7,7 @@
     "require": {
         "piwik": ">=2.14.0"
     },
+    "license": "GPLv3",
     "homepage": "http:\/\/mgazdzik.pl",
     "authors": [
         {

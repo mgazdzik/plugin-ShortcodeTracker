@@ -72,6 +72,8 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Changelog
 
+* 0.4.4
+    * add license to plugin.json
 * 0.4.3
     * fix plugin.json structure for Plugin market
 
