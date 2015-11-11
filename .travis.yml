@@ -15,6 +15,7 @@ env:
   global:
     - PLUGIN_NAME=ShortcodeTracker
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
+    - PIWIK_LATEST_STABLE_TEST_TARGET=2.15.0
   matrix:
     - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=minimum_required_piwik
