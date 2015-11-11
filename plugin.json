@@ -8,7 +8,7 @@
         "piwik": ">=2.14.0"
     },
     "license": "GPLv3",
-    "homepage": "http:\/\/mgazdzik.pl",
+    "homepage": "http:\/\/mgazdzik.pl\/shortcodetracker",
     "authors": [
         {
             "name": "Micha\u0142 Ga\u017adzik",
