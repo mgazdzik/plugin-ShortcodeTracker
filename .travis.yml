@@ -107,7 +107,7 @@ before_script:
   - mysql -e 'create database piwik_tests;'
 
   - ./tests/travis/prepare.sh
-  - ./tests/travis/setup_webserver.sh
+  - ./plugins/ShortcodeTracker/setup_webserver.sh
 
   - cd tests/PHPUnit
 
