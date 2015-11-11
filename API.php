@@ -300,9 +300,6 @@ class API extends \Piwik\Plugin\API
 
         Piwik::postEvent(ShortcodeTracker::TRACK_REDIRECT_VISIT_EVENT, array($shortCode));
 
-        $targetUrl = $this->getCache()->getRedirectUrlForShortcode($code);
-
-
         if ($shortCode === null) {
             throw new UnableToRedirectException(Piwik::translate('ShortcodeTracker_unable_to_perform_redirect'));
         }
