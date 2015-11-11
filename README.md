@@ -10,11 +10,13 @@
 Plugin allows to turn Piwik instance into URL Shortener.
 
 Basic features:
+
 * easily create shortcode from any page you track in Piwik (integration with UI),
 * create shortcode for any custom URL you want,
 * perform redirects using your Piwik instance,
 
 Goodness comming:
+
 * for redirect peformance improvement, store your shortcodes in storage like Memcache or Redis
 * get statistics for shortcodes handled by your instance
     * get best performing URL's on websites you track,
@@ -72,6 +74,8 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Changelog
 
+* 0.4.5
+    * fix README formating for sake of Plugin market
 * 0.4.4
     * add license to plugin.json
 * 0.4.3
