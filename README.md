@@ -72,6 +72,9 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Changelog
 
+* 0.4.3
+    * fix plugin.json structure for Plugin market
+
 * 0.4.2
     * Added missing changelog
 
