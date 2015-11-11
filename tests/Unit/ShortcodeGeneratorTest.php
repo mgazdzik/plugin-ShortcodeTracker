@@ -9,7 +9,6 @@
 namespace Piwik\Plugins\ShortcodeTracker\tests\Unit;
 
 use Piwik\Plugins\ShortcodeTracker\Component\Generator;
-use Piwik\Plugins\ShortcodeTracker\Model\Model;
 use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
 
 /**
@@ -26,15 +25,17 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param $url
-     * @param $expected
+     * @param $modelMockValue
+     *
      * @dataProvider generateShortcodeProvider
      */
     public function testGenerateShortcode($url, $modelMockValue)
     {
-        $modelMock       = $this->getModelMockWithResponse($modelMockValue);
-        $urlValidator    = new UrlValidator();
-        $this->component = new Generator($modelMock, $urlValidator);
-        $actual          = $this->component->generateShortcode($url);
+        $modelMock = $this->getModelMockWithResponse($modelMockValue);
+        $urlValidator = new UrlValidator();
+        $sitesManagerAPI = $this->getSitesManagerAPIMock();
+        $this->component = new Generator($modelMock, $urlValidator, $sitesManagerAPI);
+        $actual = $this->component->generateShortcode($url);
         $this->assertNotEmpty($actual);
         $this->assertEquals(6, strlen($actual));
     }
@@ -47,21 +48,33 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('http://www.piwik.org', false),
-            array('http://www.johndoe.com', false)
+            array('http://www.johndoe.com', false),
         );
     }
 
     public function testCheckIfUnique()
     {
-        $modelMock       = $this->getModelMockForUniqueTest();
-        $urlValidator    = new UrlValidator();
-        $this->component = new Generator($modelMock, $urlValidator);
+        $modelMock = $this->getModelMockForUniqueTest();
+        $urlValidator = new UrlValidator();
+        $sitesManagerAPI = $this->getSitesManagerAPIMock();
+        $this->component = new Generator($modelMock, $urlValidator, $sitesManagerAPI);
 
-        $actual   = array();
+        $actual = array();
         $actual[] = $this->component->generateShortcode('http://www.piwik.org');
         $actual[] = $this->component->generateShortcode('http://www.piwik.org');
 
         $this->assertNotEquals($actual[0], $actual[1]);
+    }
+
+    public function testGetIdSiteForUrl()
+    {
+        $modelMock = $this->getModelMockWithResponse('');
+        $urlValidator = new UrlValidator();
+        $sitesManagerAPI = $this->getSitesManagerAPIMock();
+        $this->component = new Generator($modelMock, $urlValidator, $sitesManagerAPI);
+
+        $idsite = $this->component->getIdSiteForUrl('https://bar.foo');
+        $this->assertEquals(2, $idsite);
     }
 
     private function getModelMockForUniqueTest()
@@ -98,6 +111,24 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
         $mock->expects($this->any())
             ->method('selectShortcodeByCode')
             ->will($this->returnValue($response));
+
+        return $mock;
+    }
+
+    private function getSitesManagerAPIMock()
+    {
+        $mock = $this->getMockBuilder('Piwik\Plugins\SitesManager\API')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $sitesCollection = array(
+            array('idsite' => 1, 'main_url' => 'http://foo.bar'),
+            array('idsite' => 2, 'main_url' => 'https://bar.foo'),
+        );
+
+        $mock->expects($this->any())
+            ->method('getAllSites')
+            ->willReturn($sitesCollection);
 
         return $mock;
     }

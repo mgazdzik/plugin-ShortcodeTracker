@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ShortcodeTracker\Component;
 
 use Piwik\Plugins\ShortcodeTracker\Model\ModelInterface;
+use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
 /**
  * Class ShortcodeGenerator
@@ -28,6 +29,11 @@ class Generator
     private $urlValidator;
 
     /**
+     * @var SitesManagerAPI;
+     */
+    private $sitesManager;
+
+    /**
      * @var int
      */
     static $SHORTCODE_LENGTH = 6;
@@ -41,14 +47,16 @@ class Generator
     /**
      * @param ModelInterface $model
      */
-    public function __construct(ModelInterface $model, UrlValidator $urlValidator)
+    public function __construct(ModelInterface $model, UrlValidator $urlValidator, $sitesManagerAPI)
     {
-        $this->model        = $model;
+        $this->model = $model;
         $this->urlValidator = $urlValidator;
+        $this->sitesManager = $sitesManagerAPI;
     }
 
     /**
      * @param $url
+     *
      * @return bool
      */
     public function generateShortcode($url)
@@ -64,6 +72,7 @@ class Generator
 
     /**
      * @param $url
+     *
      * @return bool|void
      */
     public function isValidUrl($url)
@@ -83,7 +92,7 @@ class Generator
 
     private function iterateToGetShortcode($url)
     {
-        $attempts          = 1;
+        $attempts = 1;
         while ($attempts < self::$GENERATIONS_MAX_ATTEMPT_NUMBER) {
             $shortcode = $this->generate($url);
             if ($this->checkIfUnique($shortcode)) {
@@ -97,10 +106,29 @@ class Generator
 
     /**
      * @param string $code
+     *
      * @return bool
      */
     public function checkIfUnique($code)
     {
         return ($this->model->selectShortcodeByCode($code) === false);
+    }
+
+    /**
+     * @param $url
+     *
+     * @return bool
+     */
+    public function getIdSiteForUrl($url)
+    {
+        $allSites = $this->sitesManager->getAllSites();
+        foreach ($allSites as $site) {
+            if (strpos($url, $site['main_url']) !== false) {
+                return $site['idsite'];
+            }
+        }
+
+
+        return false;
     }
 }

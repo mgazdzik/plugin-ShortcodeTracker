@@ -67,7 +67,17 @@ After you confirm that plugin has been enabled:
 
 This is necessary to perform, as otherwise you will not be able to generate shortened URLs or use them with Piwik.
 
-## Changelog
+
+## Changelogs
+
+* 0.3.0
+    * Tuned travis build file
+    * Mark Shortcodes as internal during creating
+    * Track custom event with "redirect" category upon each redirect for internal Shortcode
+    * Secure API methods from anonymous user usage
+    * Add shortcode report for internally tracked URLs:
+        * Create new visit during redirect (store referrer)
+        * Add Shortcode usage report based on Custom Events plugin API
 
 * 0.2.0
     * added Travis build badges for master and develop branches
@@ -85,18 +95,24 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Backlog
 
-* Add performance report for each shortcode
-    * mark pageviews\visits originating with shortcode
+* Display shortened URL in shortcode usage report, make it more user-friendly
+* Migrate plugin to work with Piwik 2.15 LTS version
+* Add advanced report for each shortcode
+    * stitch every redirect event with following action
+    * add new referrer type (shortcode)
     * aggregate statistics
-    * add segment
+    * add segment for referrer
 * Add statistics for redirects to pages not tracked with Piwik (external pages)
     * collect redirect statistics
     * aggregate and display report
+* Add queue system for tracking redirect events to improve performance of redirect feature
+* Add integration test for redirect tracking
 * Add support for at least one caching system (redis/memcache)
-* Improve HTML designs/styles
-* Throw exception in case Shortener URL is not changed
+* Improve HTML elements designs/styles
+* Throw exception/signal in UI in case Shortener URL is not changed
 * Introduce Shortener base URL validation (in Settings section)
 * introduce value object to store Shortcode
+* handle case when given idsite has multiple domains assigned (currently it's only for main domain URL)
 
 
 ## Support

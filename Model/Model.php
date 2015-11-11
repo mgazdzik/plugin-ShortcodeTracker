@@ -22,7 +22,7 @@ class Model implements ModelInterface
         ( `id` int(11) NOT NULL AUTO_INCREMENT,
          `code` varchar(6) NOT NULL,
          `url` varchar(512) NOT NULL,
-         `is_locally_tracked` tinyint(1) DEFAULT NULL,
+         `idsite` int(10) DEFAULT NULL,
          PRIMARY KEY(`id`),
          UNIQUE KEY `uk_code` (`code`)
          ) DEFAULT CHARSET = utf8;";
@@ -36,13 +36,14 @@ class Model implements ModelInterface
     /**
      * @param string $code
      * @param string $url
-     * @param bool   $is_locally_tracked
+     * @param int    $idsite
+     *
      * @return bool
      */
-    public function insertShortcode($code, $url, $is_locally_tracked)
+    public function insertShortcode($code, $url, $idsite)
     {
         Db::query('INSERT into ' . Common::prefixTable("shortcode") . '
-      SET code = ?, url = ?, is_locally_tracked = ?', array($code, $url, $is_locally_tracked));
+      SET code = ?, url = ?, idsite = ?', array($code, $url, $idsite));
     }
 
     /**
@@ -56,6 +57,7 @@ class Model implements ModelInterface
 
     /**
      * @param $shortcode
+     *
      * @return string
      */
     public function selectShortcodeByCode($shortcode)
@@ -66,6 +68,7 @@ class Model implements ModelInterface
 
     /**
      * @param $url
+     *
      * @return string
      */
     public function selectShortcodeByUrl($url)

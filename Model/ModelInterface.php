@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\ShortcodeTracker\Model;
 
+use Piwik\Plugins\ShortcodeTracker\Exception\ShortcodeDuplicateException;
+
 interface ModelInterface {
 
     /**
@@ -18,7 +20,7 @@ interface ModelInterface {
     /**
      * @param string $shortcode
      * @param string $url
-     * @param string $is_locally_tracked
+     * @param int $idsite
      * @return bool
      * @throws ShortcodeDuplicateException
      */
