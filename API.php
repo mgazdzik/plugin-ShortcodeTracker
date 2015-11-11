@@ -212,6 +212,14 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @return string
+     */
+    public function checkMinimalRequiredAccess()
+    {
+        Piwik::checkUserIsNotAnonymous();
+    }
+
+    /**
      * @param $url
      * @param $useExistingCodeIfAvailable
      *
@@ -219,7 +227,8 @@ class API extends \Piwik\Plugin\API
      */
     public function generateShortenedUrl($url, $useExistingCodeIfAvailable = false)
     {
-        $this->checkUserNotAnonymous();
+        $this->checkMinimalRequiredAccess();
+
         $settings = $this->getPluginSettings();
         $baseUrl = $settings->getSetting(ShortcodeTracker::SHORTENER_URL_SETTING);
 
@@ -241,7 +250,9 @@ class API extends \Piwik\Plugin\API
      */
     public function generateShortcodeForUrl($url, $useExistingCodeIfAvailable = false)
     {
+
         $this->checkUserNotAnonymous();
+
         $shortcode = false;
 
         if ($useExistingCodeIfAvailable === "true") {
@@ -272,6 +283,7 @@ class API extends \Piwik\Plugin\API
     public function getUrlFromShortcode($code)
     {
         $this->checkUserNotAnonymous();
+
         $shortcode = $this->getModel()->selectShortcodeByCode($code);
 
         return $shortcode ? $shortcode['url'] : Piwik::translate('ShortcodeTracker_invalid_shortcode');
@@ -288,11 +300,14 @@ class API extends \Piwik\Plugin\API
 
         Piwik::postEvent(ShortcodeTracker::TRACK_REDIRECT_VISIT_EVENT, array($shortCode));
 
+        $targetUrl = $this->getCache()->getRedirectUrlForShortcode($code);
+
+
         if ($shortCode === null) {
             throw new UnableToRedirectException(Piwik::translate('ShortcodeTracker_unable_to_perform_redirect'));
         }
 
-//        header('HTTP/1.1 301 Moved Permanently');
+        header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . $shortCode['url']);
     }
 

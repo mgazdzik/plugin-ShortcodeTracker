@@ -67,6 +67,7 @@ After you confirm that plugin has been enabled:
 
 This is necessary to perform, as otherwise you will not be able to generate shortened URLs or use them with Piwik.
 
+
 ## Changelogs
 
 * 0.3.0
@@ -78,7 +79,6 @@ This is necessary to perform, as otherwise you will not be able to generate shor
         * Create new visit during redirect (store referrer)
         * Add Shortcode usage report based on Custom Events plugin API
 
-    
 * 0.2.0
     * added Travis build badges for master and develop branches
     * fixed existing unit tests
