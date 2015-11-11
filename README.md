@@ -20,6 +20,8 @@ Goodness comming:
     * get best performing URL's on websites you track,
     * external URLs redirect statistics
 
+Before using, please read content in `Setup` section as it's required to make plugin work with your Piwik instance!
+
 ## Usage
 
 After correctly setting up this plugin (please see section below), you are ready for shortening your Urls.
@@ -63,12 +65,12 @@ After you confirm that plugin has been enabled:
 * fill in Shortener URL input,
 * add more tests and integrate with CI environment
 * click 'save',
-* additionally you have to make Shortener URL a trusted host for Piwik by entering it in settings section,
+* **additionally you have to make Shortener URL a trusted host for Piwik by entering it in settings section**,
 
 This is necessary to perform, as otherwise you will not be able to generate shortened URLs or use them with Piwik.
 
 
-## Changelogs
+## Changelog
 
 * 0.3.0
     * Tuned travis build file
