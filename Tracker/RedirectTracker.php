@@ -22,6 +22,7 @@ class RedirectTracker
         $result = $piwikTracker->doTrackEvent(ShortcodeTracker::REDIRECT_EVENT_CATEGORY,
                                               ShortcodeTracker::REDIRECT_EVENT_NAME,
                                               $shortcode['code']);
+
         Log::debug($result);
     }
 
