@@ -15,17 +15,17 @@ class NoCache extends ShortcodeCache
      * @param string $code
      * @return void
      */
-    public function getUrlFromCache($code)
+    public function getShortcodeFromCache($code)
     {
         return;
     }
 
     /**
      * @param string $code
-     * @param string $url
+     * @param string $shortcode
      * @return void
      */
-    protected function storeUrlForCodeInCache($code, $url)
+    protected function storeShortcodeInCache($code, $shortcode)
     {
         return;
     }

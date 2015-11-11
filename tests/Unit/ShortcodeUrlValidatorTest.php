@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\ShortcodeTracker\tests\Unit;
 
+use Piwik\Access;
 use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
 
 /**

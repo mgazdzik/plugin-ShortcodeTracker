@@ -13,22 +13,12 @@ use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 
-/**
- * This class allows you to add, remove or rename menu items.
- * To configure a menu (such as Admin Menu, Reporting Menu, User Menu...) simply call the corresponding methods as
- * described in the API-Reference http://developer.piwik.org/api-reference/Piwik/Menu/MenuAbstract
- */
 class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
-        $menu->addItem('Shortcodes', '', $this->urlForDefaultAction(), $orderId = 30);
+        $menu->addItem('Shortcodes', 'ShortcodeTracker_menu_generateShortcode', $this->urlForDefaultAction(), $orderId = 30);
+        $menu->addItem('Shortcodes', 'Shortcode usage', $this->urlForAction('getShortcodeUsageReport'), $orderId = 40);
     }
-
-    public function configureAdminMenu(MenuAdmin $menu)
-    {
-
-    }
-
 
 }
