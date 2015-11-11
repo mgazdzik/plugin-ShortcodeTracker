@@ -304,7 +304,6 @@ class API extends \Piwik\Plugin\API
             throw new UnableToRedirectException(Piwik::translate('ShortcodeTracker_unable_to_perform_redirect'));
         }
 
-        header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . $shortCode['url']);
     }
 

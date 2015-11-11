@@ -81,6 +81,7 @@ class ShortcodeTracker extends \Piwik\Plugin
      */
     public function trackRedirectAction($shortcode)
     {
+
         if ($shortcode['idsite'] !== 0) {
             $tracker = new RedirectTracker();
             $tracker->recordRedirectAction($shortcode);
