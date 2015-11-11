@@ -28,7 +28,7 @@ matrix:
     - php: 5.4
       env: TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=minimum_required_piwik
 
-sudo: required
+sudo: false
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
