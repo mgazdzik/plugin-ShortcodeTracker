@@ -72,6 +72,12 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Changelog
 
+* 0.4.2
+    * Added missing changelog
+
+* 0.4.0
+    * Piwik Plugin market release
+
 * 0.3.0
     * Tuned travis build file
     * Mark Shortcodes as internal during creating
