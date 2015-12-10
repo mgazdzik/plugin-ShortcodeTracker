@@ -14,15 +14,20 @@ Basic features:
 * easily create shortcode from any page you track in Piwik (integration with UI),
 * create shortcode for any custom URL you want,
 * perform redirects using your Piwik instance,
-
-Goodness comming:
-
-* for redirect peformance improvement, store your shortcodes in storage like Memcache or Redis
-* get statistics for shortcodes handled by your instance
+* get usage statistics for shortcodes handled by your instance
     * get best performing URL's on websites you track,
     * external URLs redirect statistics
 
-Before using, please read content in `Setup` section as it's required to make plugin work with your Piwik instance!
+Goodness coming:
+
+* for redirect performance improvement, store your shortcodes in storage like Memcache or Redis,
+* more advanced statistics,
+* attributing shortcode redirects with actual visits on your page,
+* enrich shortcode performance report with URLs they lead to, so it's possible to tell which URL's are shortened
+the most,
+
+Before using, please read content in [`Setup`](https://github.com/mgazdzik/plugin-ShortcodeTracker#setup) section 
+as it contains steps required to make plugin work with your Piwik instance!
 
 ## Usage
 
@@ -35,7 +40,7 @@ This view gives you possibility to shorten any URL you want and operate with sho
 Additionally this plugin integrates with Page URL's report - hover over URL you want to shorten and click scissors icon.
 
 This will call popup with appropriate shortcode, so you don't need to manually shorten any URL you already track with your
-Piwik instnace.
+Piwik instance.
 
 Enjoy!
 
@@ -44,19 +49,20 @@ Enjoy!
 ### Webserver
 Besides of functional Piwik instance with this plugin enabled you will also need special configuration for your webserver.
 
-It's purpose is to redirect any short url's hitting your server to proper API method doing all the magic.
+It's purpose is to redirect any short url hitting your server to proper API method doing the magic.
 
 Below you can find example configurations
 
-* [for NGINX webserver](docs/nginx_config.md)
-* [for Apache2 webserver](docs/apache_config.md) - content for .htaccess file of your webserver docroot
+* [for NGINX webserver vhost](docs/nginx_config.md)
+* [for Apache2 webserver .htaccess file](docs/apache_config.md)
 
 **Please be aware that in your case this configuration may be different, so please contact your system/webserver
 admin for advisory!**
 
+
 ### Plugin
 
-Before you can start shorteing your URLs you need to perform following steps:
+Before you can start shortening your URLs you need to perform following steps:
 
 * go to Administration -> Plugins,
 * find "ShortcodeTracker" plugin and click `enable`,
@@ -65,14 +71,34 @@ After you confirm that plugin has been enabled:
 * go to Administration -> Plugin Settings,
 * go to ShortcodeTracker section,
 * fill in Shortener URL input,
-* add more tests and integrate with CI environment
+* if you want to track external sites, you need to decide to which Piwik page those actions will be attributed (see
+External redirects tracking section below),
 * click 'save',
 * **additionally you have to make Shortener URL a trusted host for Piwik by entering it in settings section**,
 
 This is necessary to perform, as otherwise you will not be able to generate shortened URLs or use them with Piwik.
 
+### External redirects tracking
+
+It is possible to also track redirect actions for external URLs (i.e. which URL doesn't match any page tracked within
+your Piwik instance). However, it is required to decide to which site this traffic will be attributed to.
+
+It is recommended to create a separate Website in Piwik instance only dedicated to this traffic, so that other websites
+reports won't be affected by redirect events.
+
+To select which site should collect redirects:
+
+* go to `Plugin Settings` section,
+* from dropdown you can select site for external redirects,
+* alternatively you can select not to track external redirects by setting `Do not collect external shortcode redirects`,
+* click save
 
 ## Changelog
+
+* 0.5.0
+    * Add statistics collection for redirects to pages not tracked with Piwik (external pages)
+         * collect redirect statistics into Site you choose in interface,
+         * aggregate and display report for external shortcodes in separate view
 
 * 0.4.5
     * fix README formating for sake of Plugin market
@@ -112,30 +138,30 @@ This is necessary to perform, as otherwise you will not be able to generate shor
 
 ## Backlog
 
+
 * Display shortened URL in shortcode usage report, make it more user-friendly
-* Migrate plugin to work with Piwik 2.15 LTS version
+* Migrate plugin to work with Piwik 2.15 LTS version,
 * Add advanced report for each shortcode
-    * stitch every redirect event with following action
-    * add new referrer type (shortcode)
-    * aggregate statistics
-    * add segment for referrer
-* Add statistics for redirects to pages not tracked with Piwik (external pages)
-    * collect redirect statistics
-    * aggregate and display report
-* Add queue system for tracking redirect events to improve performance of redirect feature
-* Add integration test for redirect tracking
-* Add support for at least one caching system (redis/memcache)
-* Improve HTML elements designs/styles
-* Throw exception/signal in UI in case Shortener URL is not changed
-* Introduce Shortener base URL validation (in Settings section)
-* introduce value object to store Shortcode
-* handle case when given idsite has multiple domains assigned (currently it's only for main domain URL)
+    * stitch every redirect event with following action,
+    * add new referrer type (shortcode),
+    * aggregate statistics,
+    * add segment for referrer,
+* Refactor plugin so it's possible to cover Model.php with tests,
+* Add queue system for tracking redirect events to improve performance of redirect feature,
+* Add integration test for redirect tracking,
+* Add support for at least one caching system (redis/memcache),
+* Improve HTML elements designs/styles,
+* Throw exception/signal in UI in case Shortener URL is not changed,
+* Introduce Shortener base URL validation (in Settings section),
+* introduce value object to store Shortcode,
+* handle case when given idsite has multiple domains assigned (currently it's only for main domain URL),
 
 
 ## Support
 
 Please direct any feedback regarding plugin to Github repository issue tracker available at
 [https://github.com/mgazdzik/plugin-ShortcodeTracker/issues](https://github.com/mgazdzik/plugin-ShortcodeTracker/issues).
+
 
 ## Credits
 Scissors icon visible in Actions report is originating from

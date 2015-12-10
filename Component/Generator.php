@@ -72,7 +72,7 @@ class Generator
 
     /**
      * @param $url
-     *
+     * @codeCoverageIgnore
      * @return bool|void
      */
     public function isValidUrl($url)

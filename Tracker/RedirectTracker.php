@@ -10,20 +10,28 @@ use Piwik\SettingsPiwik;
 
 class RedirectTracker
 {
+    protected $shortcodeTrackerSettings;
+
+    public function __construct()
+    {
+        $this->shortcodeTrackerSettings = new Settings('ShortcodeTracker');
+    }
 
     public function recordRedirectAction($shortcode)
     {
-        $pluginSettings = new Settings('ShortcodeTracker');
-        $baseUrl = $pluginSettings->getsetting(ShortcodeTracker::SHORTENER_URL_SETTING);
+        $baseUrl = $this->shortcodeTrackerSettings->getSlashedSetting(ShortcodeTracker::SHORTENER_URL_SETTING);
 
-        $piwikTracker = $this->getPiwikTracker($shortcode['idsite']);
-        $piwikTracker->setUrl($shortcode['url']);
-        $piwikTracker->setUrlReferrer($baseUrl . $shortcode['code']);
-        $result = $piwikTracker->doTrackEvent(ShortcodeTracker::REDIRECT_EVENT_CATEGORY,
-                                              ShortcodeTracker::REDIRECT_EVENT_NAME,
-                                              $shortcode['code']);
+        $idSite = $this->getIdsiteForShortcode($shortcode);
+        if ($idSite !== "0") {
+            $piwikTracker = $this->getPiwikTracker($idSite);
+            $piwikTracker->setUrl($shortcode['url']);
+            $piwikTracker->setUrlReferrer($baseUrl . $shortcode['code']);
+            $result = $piwikTracker->doTrackEvent(ShortcodeTracker::REDIRECT_EVENT_CATEGORY,
+                                                  ShortcodeTracker::REDIRECT_EVENT_NAME,
+                                                  $shortcode['code']);
 
-        Log::debug($result);
+            Log::debug($result);
+        }
     }
 
     protected function getPiwikTracker($idSite)
@@ -33,4 +41,15 @@ class RedirectTracker
 
         return new \PiwikTracker($idSite);
     }
+
+    protected function getIdsiteForShortcode($shortcode)
+    {
+        if ($shortcode['idsite'] !== "0") {
+            return $shortcode['idsite'];
+        } else {
+            return $this->shortcodeTrackerSettings
+                ->getSetting(ShortcodeTracker::SHORTENER_EXTERNAL_SHORTCODES_IDSITE)->getValue();
+        }
+    }
+
 }
