@@ -12,6 +12,9 @@ use Piwik\Common;
 use Piwik\Plugins\ShortcodeTracker\Component\ShortcodeValidator;
 use Piwik\View;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
@@ -26,11 +29,16 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->renderReport(__FUNCTION__);
     }
 
+    public function getExternalShortcodeUsageReport()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
     public function showShortcodePopup()
     {
         $shortcode = Common::getRequestVar('shortcode');
         $pluginSettings = new Settings('ShortcodeTracker');
-        $baseUrl = $pluginSettings->getsetting(ShortcodeTracker::SHORTENER_URL_SETTING);
+        $baseUrl = $pluginSettings->getSlashedSetting(ShortcodeTracker::SHORTENER_URL_SETTING);
 
         $view = new View('@ShortcodeTracker/singleShortcode');
         $codeValidator = new ShortcodeValidator();

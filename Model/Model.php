@@ -11,8 +11,38 @@ namespace Piwik\Plugins\ShortcodeTracker\Model;
 use Piwik\Common;
 use Piwik\Db;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Model implements ModelInterface
 {
+
+    /**
+     * @var Db
+     */
+    protected $db;
+
+    /**
+     * @return mixed
+     */
+    public function getDb()
+    {
+        if ($this->db === null) {
+            $this->db = Db::get();
+        }
+
+        return $this->db;
+    }
+
+    /**
+     * @param mixed $db
+     */
+    public function setDb($db)
+    {
+        $this->db = $db;
+    }
+
+
     /**
      * @return bool
      */
@@ -27,8 +57,7 @@ class Model implements ModelInterface
          UNIQUE KEY `uk_code` (`code`)
          ) DEFAULT CHARSET = utf8;";
 
-        $db = Db::get();
-        $db->query($query);
+        $this->executeQuery('query', $query);
 
         return true;
     }
@@ -42,7 +71,7 @@ class Model implements ModelInterface
      */
     public function insertShortcode($code, $url, $idsite)
     {
-        Db::query('INSERT into ' . Common::prefixTable("shortcode") . '
+        $this->getDb()->query('INSERT into ' . Common::prefixTable("shortcode") . '
       SET code = ?, url = ?, idsite = ?', array($code, $url, $idsite));
     }
 
@@ -62,7 +91,7 @@ class Model implements ModelInterface
      */
     public function selectShortcodeByCode($shortcode)
     {
-        return Db::fetchRow('Select * from ' . Common::prefixTable('shortcode') . '
+        return $this->getDb()->fetchRow('Select * from ' . Common::prefixTable('shortcode') . '
      where code = ? ORDER BY id DESC LIMIT 1', array($shortcode));
     }
 
@@ -73,16 +102,18 @@ class Model implements ModelInterface
      */
     public function selectShortcodeByUrl($url)
     {
-        return Db::fetchOne('Select code from ' . Common::prefixTable('shortcode') . '
+        return $this->getDb()->fetchOne('Select code from ' . Common::prefixTable('shortcode') . '
      where url = ? ORDER BY id DESC LIMIT 1', array($url));
     }
 
     /**
-     * @return array
+     * @param string $method
+     * @param string $query
+     * @param array  $params
      */
-    public function selectShortcodesTrackedLocally()
+    public function executeQuery($method, $query, array $params = array())
     {
-        return Db::fetchAll('Select id from ' . Common::prefixTable('shortcode') . '
-     where url = 1');
+        $this->getDb()->$method($query, $params);
     }
+
 }
