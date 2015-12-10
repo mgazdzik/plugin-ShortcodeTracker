@@ -12,10 +12,14 @@ use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\ShortcodeTracker\Model\Model;
 use Piwik\Plugins\ShortcodeTracker\Tracker\RedirectTracker;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ShortcodeTracker extends \Piwik\Plugin
 {
     const DEFAULT_SHORTENER_URL = 'http://changeme.com/';
     const SHORTENER_URL_SETTING = 'shortener_url';
+    const SHORTENER_EXTERNAL_SHORTCODES_IDSITE = 'shortener_external_shortcodes_idsite';
     const TRACK_REDIRECT_VISIT_EVENT = 'ShortcodeTracker.trackRedirectAction';
     const REDIRECT_EVENT_CATEGORY = 'shordcode';
     const REDIRECT_EVENT_NAME = 'redirect';
@@ -81,11 +85,8 @@ class ShortcodeTracker extends \Piwik\Plugin
      */
     public function trackRedirectAction($shortcode)
     {
-
-        if ($shortcode['idsite'] !== 0) {
             $tracker = new RedirectTracker();
             $tracker->recordRedirectAction($shortcode);
-        }
     }
 
     public function dataTableConfigure(ViewDataTable $view)

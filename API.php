@@ -60,7 +60,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
-     *
+     * @codeCoverageIgnore
      * @return Model
      */
     public function getModel()
@@ -74,7 +74,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
-     *
+     * @codeCoverageIgnore
      * @param Model $model
      */
     public function setModel($model)
@@ -85,7 +85,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
-     *
+     * @codeCoverageIgnore
      * @return UrlValidator
      */
     public function getUrlValidator()
@@ -99,7 +99,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
-     *
+     * @codeCoverageIgnore
      * @param UrlValidator $urlValidator
      */
     public function setUrlValidator($urlValidator)
@@ -110,7 +110,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
-     *
+     * @codeCoverageIgnore
      * @return ShortcodeCache
      */
     public function getCache()
@@ -124,7 +124,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
-     *
+     * @codeCoverageIgnore
      * @param Cache @cache
      */
     public function setCache(ShortcodeCache $cache)
@@ -135,6 +135,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
+     * @codeCoverageIgnore
      * @return Generator
      */
     public function getGenerator()
@@ -149,7 +150,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
-     *
+     * @codeCoverageIgnore
      * @param Generator $generator
      */
     public function setGenerator($generator)
@@ -160,7 +161,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
-     *
+     * @codeCoverageIgnore
      * @return Settings
      */
     public function getPluginSettings()
@@ -174,7 +175,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
-     *
+     * @codeCoverageIgnore
      * @param Settings $pluginSettings
      */
     public function setPluginSettings($pluginSettings)
@@ -186,7 +187,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
-     *
+     * @codeCoverageIgnore
      * @return SitesManagerAPI
      */
     public function getSitesManagerAPI()
@@ -202,7 +203,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @hideForAll
-     *
+     * @codeCoverageIgnore
      * @param SitesManagerAPI $sitesManagerAPI
      */
     public function setSitesManagerAPI($sitesManagerAPI)
@@ -331,9 +332,35 @@ class API extends \Piwik\Plugin\API
         return false;
     }
 
+    public function getExternalShortcodeUsageReport($idSite, $period, $date, $segment = false, $columns = false)
+    {
+        $this->checkUserNotAnonymous();
+        /** @var Settings $settings */
+        $settings = $this->getPluginSettings();
+        $idSite = $settings->getSetting(ShortcodeTracker::SHORTENER_EXTERNAL_SHORTCODES_IDSITE)->getValue();
+        $eventsApi = EventsAPI::getInstance();
+
+        $eventReport = $eventsApi
+            ->getCategory($idSite, $period, $date, $segment);
+
+        if ($eventReport->getRowsCount() === 0) {
+            return new DataTable();
+        }
+
+        $shortcodeReportIdSubtable = $eventReport
+            ->getRowFromLabel(ShortcodeTracker::REDIRECT_EVENT_CATEGORY)
+            ->getIdSubDataTable();
+
+        if ($shortcodeReportIdSubtable) {
+            return $eventsApi->getNameFromCategoryId($idSite, $period, $date, $shortcodeReportIdSubtable);
+        }
+
+        return false;
+    }
 
     protected function checkUserNotAnonymous()
     {
         Piwik::checkUserIsNotAnonymous();
     }
+
 }

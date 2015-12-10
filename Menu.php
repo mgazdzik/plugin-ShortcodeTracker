@@ -13,12 +13,17 @@ use Piwik\Menu\MenuReporting;
 use Piwik\Menu\MenuTop;
 use Piwik\Menu\MenuUser;
 
+/**
+ * @codeCoverageIgnore
+ * @package Piwik\Plugins\ShortcodeTracker
+ */
 class Menu extends \Piwik\Plugin\Menu
 {
     public function configureReportingMenu(MenuReporting $menu)
     {
         $menu->addItem('Shortcodes', 'ShortcodeTracker_menu_generateShortcode', $this->urlForDefaultAction(), $orderId = 30);
         $menu->addItem('Shortcodes', 'Shortcode usage', $this->urlForAction('getShortcodeUsageReport'), $orderId = 40);
+        $menu->addItem('Shortcodes', 'External shortcode usage', $this->urlForAction('getExternalShortcodeUsageReport'), $orderId = 50);
     }
 
 }
