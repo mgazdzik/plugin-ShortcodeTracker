@@ -64,7 +64,12 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
 
         $this->api->setPluginSettings($pluginSettingsMock);
 
-        $actual = $this->api->generateShortenedUrl('http://foo.bar');
+        try {
+            $actual = $this->api->generateShortenedUrl('http://foo.bar');
+        } catch (\Zend_Db_Statement_Exception $e) {
+            $this->markTestSkipped('No database connection, skip test');
+        }
+        
         $this->assertEquals($expected, $actual);
     }
 
