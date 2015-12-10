@@ -52,24 +52,25 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
     public function testGenerateShortenedUrl()
     {
         $expected = 'http://changeme.com/123abc';
-        $this->api->setGenerator($this->getGeneratorMock('generateShortcode', '123abc'));
-
-        /** @var Settings $pluginSettingsMock */
-        $pluginSettingsMock = $this->getMock('Piwik\Plugins\ShortcodeTracker\Settings');
-
-        $pluginSettingsMock->expects($this->once())
-            ->method('getSetting')
-            ->with(ShortcodeTracker::SHORTENER_URL_SETTING)
-            ->willReturn(ShortcodeTracker::DEFAULT_SHORTENER_URL);
-
-        $this->api->setPluginSettings($pluginSettingsMock);
-
         try {
+            $this->api->setGenerator($this->getGeneratorMock('generateShortcode', '123abc'));
+
+            /** @var Settings $pluginSettingsMock */
+            $pluginSettingsMock = $this->getMock('Piwik\Plugins\ShortcodeTracker\Settings');
+
+            $pluginSettingsMock->expects($this->once())
+                ->method('getSetting')
+                ->with(ShortcodeTracker::SHORTENER_URL_SETTING)
+                ->willReturn(ShortcodeTracker::DEFAULT_SHORTENER_URL);
+
+            $this->api->setPluginSettings($pluginSettingsMock);
+
+
             $actual = $this->api->generateShortenedUrl('http://foo.bar');
         } catch (\Zend_Db_Statement_Exception $e) {
             $this->markTestSkipped('No database connection, skip test');
         }
-        
+
         $this->assertEquals($expected, $actual);
     }
 
