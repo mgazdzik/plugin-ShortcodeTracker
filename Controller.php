@@ -34,6 +34,16 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->renderReport(__FUNCTION__);
     }
 
+    public function getShortenedPagesReport()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
+    public function getShortenedExternalPagesReport()
+    {
+        return $this->renderReport(__FUNCTION__);
+    }
+
     public function showShortcodePopup()
     {
         $shortcode = Common::getRequestVar('shortcode');
