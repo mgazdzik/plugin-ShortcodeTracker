@@ -94,6 +94,10 @@ To select which site should collect redirects:
 
 ## Changelog
 
+* 0.6.1
+    * Sort out mistakenly pushed tag
+
+
 * 0.6.0
     * Shortcode usage report added link to shortened page to for easier recognition of what is being shortened and used most,
     * Display summarized report displaying which URLs were visited most via shortcode redirects,
