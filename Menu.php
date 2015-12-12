@@ -2,16 +2,13 @@
 /**
  * Piwik - free/libre analytics platform
  *
- * @link http://piwik.org
+ * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\ShortcodeTracker;
 
-use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuReporting;
-use Piwik\Menu\MenuTop;
-use Piwik\Menu\MenuUser;
 
 /**
  * @codeCoverageIgnore
@@ -23,7 +20,9 @@ class Menu extends \Piwik\Plugin\Menu
     {
         $menu->addItem('Shortcodes', 'ShortcodeTracker_menu_generateShortcode', $this->urlForDefaultAction(), $orderId = 30);
         $menu->addItem('Shortcodes', 'Shortcode usage', $this->urlForAction('getShortcodeUsageReport'), $orderId = 40);
-        $menu->addItem('Shortcodes', 'External shortcode usage', $this->urlForAction('getExternalShortcodeUsageReport'), $orderId = 50);
+        $menu->addItem('Shortcodes', 'Most shortened pages', $this->urlForAction('getShortenedPagesReport'), $orderId = 50);
+        $menu->addItem('Shortcodes', 'External shortcode usage', $this->urlForAction('getExternalShortcodeUsageReport'), $orderId = 60);
+        $menu->addItem('Shortcodes', 'Most shortened external pages', $this->urlForAction('getShortenedExternalPagesReport'), $orderId = 70);
     }
 
 }
