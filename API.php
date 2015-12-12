@@ -75,6 +75,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @hideForAll
      * @codeCoverageIgnore
+     *
      * @param Model $model
      */
     public function setModel($model)
@@ -100,6 +101,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @hideForAll
      * @codeCoverageIgnore
+     *
      * @param UrlValidator $urlValidator
      */
     public function setUrlValidator($urlValidator)
@@ -125,6 +127,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @hideForAll
      * @codeCoverageIgnore
+     *
      * @param Cache @cache
      */
     public function setCache(ShortcodeCache $cache)
@@ -151,6 +154,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @hideForAll
      * @codeCoverageIgnore
+     *
      * @param Generator $generator
      */
     public function setGenerator($generator)
@@ -176,6 +180,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @hideForAll
      * @codeCoverageIgnore
+     *
      * @param Settings $pluginSettings
      */
     public function setPluginSettings($pluginSettings)
@@ -204,6 +209,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @hideForAll
      * @codeCoverageIgnore
+     *
      * @param SitesManagerAPI $sitesManagerAPI
      */
     public function setSitesManagerAPI($sitesManagerAPI)
@@ -326,7 +332,10 @@ class API extends \Piwik\Plugin\API
             ->getIdSubDataTable();
 
         if ($shortcodeReportIdSubtable) {
-            return $eventsApi->getNameFromCategoryId($idSite, $period, $date, $shortcodeReportIdSubtable);
+            $report = $eventsApi->getNameFromCategoryId($idSite, $period, $date, $shortcodeReportIdSubtable);
+            $enrichedReport = $this->enrichReportWithShortcodeUrls($report);
+
+            return $enrichedReport;
         }
 
         return false;
@@ -352,15 +361,72 @@ class API extends \Piwik\Plugin\API
             ->getIdSubDataTable();
 
         if ($shortcodeReportIdSubtable) {
-            return $eventsApi->getNameFromCategoryId($idSite, $period, $date, $shortcodeReportIdSubtable);
+            $report = $eventsApi->getNameFromCategoryId($idSite, $period, $date, $shortcodeReportIdSubtable);
+            $enrichedReport = $this->enrichReportWithShortcodeUrls($report);
+
+            return $enrichedReport;
         }
 
         return false;
     }
 
+    public function getShortenedPagesReport($idSite, $period, $date, $segment = false, $columns = false)
+    {
+        $report = $this->getShortcodeUsageReport($idSite, $period, $date, $segment, $columns);
+
+        if ($report !== false) {
+            $report = $this->summarizeByShortenedUrl($report);
+        }
+
+        return $report;
+    }
+
+    public function getShortenedExternalPagesReport($idSite, $period, $date, $segment = false, $columns = false)
+    {
+        $report = $this->getExternalShortcodeUsageReport($idSite, $period, $date, $segment, $columns);
+        if ($report !== false) {
+            $report = $this->summarizeByShortenedUrl($report);
+        }
+
+        return $report;
+
+    }
+
     protected function checkUserNotAnonymous()
     {
         Piwik::checkUserIsNotAnonymous();
+    }
+
+    /**
+     * @param DataTable $report
+     *
+     * @return DataTable
+     */
+    protected function enrichReportWithShortcodeUrls(DataTable $report)
+    {
+        $model = $this->getModel();
+        $filter = new DataTable\Filter\ColumnCallbackAddColumn($report, 'label', 'shortcode_url', (function ($code) use ($model) {
+            $shortcode = $model->selectShortcodeByCode($code);
+
+            return $shortcode['url'];
+        }));
+
+        $filter->filter($report);
+
+        foreach ($report->getRows() as $row) {
+            $row->setMetadata('url', $row['shortcode_url']);
+        }
+
+        return $report;
+    }
+
+    protected function summarizeByShortenedUrl(DataTable $report)
+    {
+        $report->renameColumn('shortcode_url', 'label');
+        $filter = new DataTable\Filter\GroupBy($report, 'label');
+        $filter->filter($report);
+
+        return $report;
     }
 
 }

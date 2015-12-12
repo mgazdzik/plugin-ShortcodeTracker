@@ -95,23 +95,36 @@ To select which site should collect redirects:
 
 ## Changelog
 
+* 0.6.0
+    * Shortcode usage report added link to shortened page to for easier recognition of what is being shortened and used most,
+    * Display summarized report displaying which URLs were visited most via shortcode redirects,
+
+
 * 0.5.0
     * Add statistics collection for redirects to pages not tracked with Piwik (external pages)
          * collect redirect statistics into Site you choose in interface,
          * aggregate and display report for external shortcodes in separate view
 
+
 * 0.4.5
     * fix README formating for sake of Plugin market
+    
+    
 * 0.4.4
     * add license to plugin.json
+    
+    
 * 0.4.3
     * fix plugin.json structure for Plugin market
+
 
 * 0.4.2
     * Added missing changelog
 
+
 * 0.4.0
     * Piwik Plugin market release
+
 
 * 0.3.0
     * Tuned travis build file
@@ -122,11 +135,13 @@ To select which site should collect redirects:
         * Create new visit during redirect (store referrer)
         * Add Shortcode usage report based on Custom Events plugin API
 
+
 * 0.2.0
     * added Travis build badges for master and develop branches
     * fixed existing unit tests
     * slight refactor in terms of class naming
     * added integration test for API methods
+
 
 * 0.1.0
     * API allowing to create and retrieve shortcodes,
@@ -139,7 +154,7 @@ To select which site should collect redirects:
 ## Backlog
 
 
-* Display shortened URL in shortcode usage report, make it more user-friendly
+
 * Migrate plugin to work with Piwik 2.15 LTS version,
 * Add advanced report for each shortcode
     * stitch every redirect event with following action,
