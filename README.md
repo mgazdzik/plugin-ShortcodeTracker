@@ -94,7 +94,7 @@ To select which site should collect redirects:
 
 ## Changelog
 
-* 0.6.1
+* 0.6.2
     * Sort out mistakenly pushed tag
 
 
