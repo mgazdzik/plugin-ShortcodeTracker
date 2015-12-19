@@ -114,10 +114,11 @@ before_script:
   - ./tests/travis/prepare.sh
  # - ./tests/travis/setup_webserver.sh
 
+  - mkdir -p build/logs
+
   - cd tests/PHPUnit
 
 script:
- - mkdir -p build/logs
  - phpunit --group ShortcodeTracker --coverage-clover ../../build/logs/clover.xml
 
 after_script:
