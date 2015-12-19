@@ -111,6 +111,10 @@ before_script:
 
   - cd tests/PHPUnit
 
+script:
+ - mkdir -p build/logs
+ - phpunit --coverage-clover build/logs/clover.xml
+
 after_script:
   # change directory back to root travis dir
   - cd $PIWIK_ROOT_DIR
@@ -123,7 +127,11 @@ after_script:
 
   # upload test artifacts (for debugging travis failures)
   - ./tests/travis/upload_artifacts.sh
+  #run test coverals
+  - php vendor/bin/coveralls -v
 
 after_success:
   - cd $PIWIK_ROOT_DIR
-  - coveralls
+
+
+
