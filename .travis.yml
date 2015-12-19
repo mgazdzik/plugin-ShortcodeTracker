@@ -118,12 +118,15 @@ before_script:
   - cd tests/PHPUnit
 
 script:
- - ls ../../build/
  - phpunit --group ShortcodeTracker --coverage-clover ../../build/logs/clover.xml
 
 after_script:
-  # change directory back to root travis dir
   - cd $PIWIK_ROOT_DIR
+  - ls
+  - ls -al build/logs
+  - php vendor/bin/coveralls -v -c="plugins/ShortcodeTracker/.coveralls.yml"
+  # change directory back to root travis dir
+
 
   # output contents of files w/ debugging info to screen
   - cat /var/log/nginx/error.log
@@ -134,8 +137,7 @@ after_script:
   # upload test artifacts (for debugging travis failures)
   - ./tests/travis/upload_artifacts.sh
   #run test coverals
-  - ls -al build/logs/
-  - php vendor/bin/coveralls -v -c="plugins/ShortcodeTracker/.coveralls.yml"
+
 
 after_success:
   - cd $PIWIK_ROOT_DIR
