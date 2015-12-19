@@ -134,8 +134,3 @@ after_script:
 
   # upload test artifacts (for debugging travis failures)
   - ./tests/travis/upload_artifacts.sh
-  #run test coverals
-
-
-
-
