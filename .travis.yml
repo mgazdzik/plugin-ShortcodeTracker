@@ -107,14 +107,16 @@ before_script:
   - php -r "var_dump(gd_info());"
   - mysql -e 'create database piwik_tests;'
 
+  # clone coverage tool
+  - composer require satooshi/php-coveralls
+  - composer update
+
   - ./tests/travis/prepare.sh
  # - ./tests/travis/setup_webserver.sh
 
   - cd tests/PHPUnit
 
 script:
- - composer require satooshi/php-coveralls
- - composer update
  - mkdir -p build/logs
  - phpunit --group ShortcodeTracker --coverage-clover build/logs/clover.xml
 
