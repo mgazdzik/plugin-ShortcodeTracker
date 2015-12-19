@@ -113,7 +113,7 @@ before_script:
 
 script:
  - mkdir -p build/logs
- - phpunit --coverage-clover build/logs/clover.xml
+ - phpunit --group ShortcodeTracker --coverage-clover build/logs/clover.xml
 
 after_script:
   # change directory back to root travis dir
