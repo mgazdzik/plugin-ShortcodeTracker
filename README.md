@@ -1,9 +1,9 @@
 # ShortcodeTracker Plugin
 
-| Branch | Status |
-| --- | --- |
-| Master | [![Build Status](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker.svg?branch=master)](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker) |
-| Develop | [![Build Status](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker.svg?branch=develop)](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker) |
+| Branch | Travis status | Coveralls |
+| --- | --- | --- |
+| Master | [![Build Status](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker.svg?branch=master)](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker) | [![Coverage Status](https://coveralls.io/repos/mgazdzik/plugin-ShortcodeTracker/badge.svg?branch=master&service=github)](https://coveralls.io/github/mgazdzik/plugin-ShortcodeTracker?branch=master) |
+| Develop | [![Build Status](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker.svg?branch=develop)](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker) | [![Coverage Status](https://coveralls.io/repos/mgazdzik/plugin-ShortcodeTracker/badge.svg?branch=develop&service=github)](https://coveralls.io/github/mgazdzik/plugin-ShortcodeTracker?branch=develop) |
 
 ## Description
 
@@ -97,6 +97,8 @@ To select which site should collect redirects:
 * 0.7.0
     * Improve plugin behavior when plugin settings aren't specified
     * improve travis build file
+    * configure scrutinizer-ci build
+    * add coverals.ci badge
     * assume HTTP schema for redirect url if not provided
     
 * 0.6.2
