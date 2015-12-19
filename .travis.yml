@@ -115,6 +115,7 @@ before_script:
  # - ./tests/travis/setup_webserver.sh
 
   - mkdir -p build/logs/
+  - chmod -R 777 build/logs
   - cd tests/PHPUnit
 
 script:
@@ -122,7 +123,6 @@ script:
 
 after_script:
   - cd $PIWIK_ROOT_DIR
-  - ls
   - ls -al build/logs
   - php vendor/bin/coveralls -v -c="plugins/ShortcodeTracker/.coveralls.yml"
   # change directory back to root travis dir
@@ -138,9 +138,6 @@ after_script:
   - ./tests/travis/upload_artifacts.sh
   #run test coverals
 
-
-after_success:
-  - cd $PIWIK_ROOT_DIR
 
 
 
