@@ -126,3 +126,4 @@ after_script:
 
 after_success:
   - cd $PIWIK_ROOT_DIR
+  - coveralls
