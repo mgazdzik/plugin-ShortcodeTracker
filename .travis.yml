@@ -114,7 +114,7 @@ before_script:
   - ./tests/travis/prepare.sh
  # - ./tests/travis/setup_webserver.sh
 
-  - mkdir -p build/logs/
+  - mkdir -p build/
   - cd tests/PHPUnit
 
 script:
