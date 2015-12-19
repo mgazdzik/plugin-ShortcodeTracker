@@ -120,6 +120,7 @@ before_script:
 
 script:
  - phpunit --group ShortcodeTracker --coverage-clover ../../build/logs/clover.xml
+ - ls ../../build/logs
 
 after_script:
   - cd $PIWIK_ROOT_DIR
