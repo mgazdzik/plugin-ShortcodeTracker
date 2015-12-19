@@ -20,6 +20,10 @@ class Controller extends \Piwik\Plugin\Controller
     public function index()
     {
         $view = new View('@ShortcodeTracker/index');
+        $pluginSettings = new Settings('ShortcodeTracker');
+        if ($pluginSettings->isSettingUnspecified(ShortcodeTracker::SHORTENER_URL_SETTING)) {
+            $view->shortener_url_undefined = true;
+        }
 
         return $view->render();
     }
@@ -31,6 +35,13 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getExternalShortcodeUsageReport()
     {
+        $pluginSettings = new Settings('ShortcodeTracker');
+        if ($pluginSettings->isSettingUnspecified(ShortcodeTracker::SHORTENER_EXTERNAL_SHORTCODES_IDSITE)) {
+            $view = $this->getBlankReportView();
+
+            return $view->render();
+        };
+
         return $this->renderReport(__FUNCTION__);
     }
 
@@ -41,6 +52,13 @@ class Controller extends \Piwik\Plugin\Controller
 
     public function getShortenedExternalPagesReport()
     {
+        $pluginSettings = new Settings('ShortcodeTracker');
+        if ($pluginSettings->isSettingUnspecified(ShortcodeTracker::SHORTENER_EXTERNAL_SHORTCODES_IDSITE)) {
+            $view = $this->getBlankReportView();
+
+            return $view->render();
+        };
+
         return $this->renderReport(__FUNCTION__);
     }
 
@@ -63,5 +81,13 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         return $view->render();
+    }
+
+    protected function getBlankReportView()
+    {
+        $view = new View('@ShortcodeTracker/blank');
+        $view->shortener_url_undefined = true;
+
+        return $view;
     }
 }

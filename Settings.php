@@ -48,6 +48,14 @@ class Settings extends \Piwik\Plugin\Settings
         return $value;
     }
 
+    public function isSettingUnspecified($settingName)
+    {
+        $setting = $this->getSetting($settingName);
+
+        return ($setting->defaultValue === $setting->getValue());
+
+    }
+
     private function createShortenerUrlSetting()
     {
         $this->shortenerUrl = new SystemSetting(ShortcodeTracker::SHORTENER_URL_SETTING,
@@ -68,6 +76,7 @@ class Settings extends \Piwik\Plugin\Settings
             Piwik::translate('ShortcodeTracker_settings_shortener_external_shortcodes_idsite_setting_name'));
         $sitesManagerApi = SitesManagerAPI::getInstance();
         $this->shortenerExternalShortcodeIdsite->readableByCurrentUser = true;
+        $this->shortenerExternalShortcodeIdsite->defaultValue = "0";
         $this->shortenerExternalShortcodeIdsite->uiControlType = static::CONTROL_SINGLE_SELECT;
         $this->shortenerExternalShortcodeIdsite->availableValues =
             Access::doAsSuperUser(function () use ($sitesManagerApi) {

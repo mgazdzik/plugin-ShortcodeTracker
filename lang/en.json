@@ -21,6 +21,9 @@
     "settings_shortener_external_shortcodes_idsite_setting": "SiteId to which redirects of external Shortcodes will be tracked to.",
     "menu_generateShortcode": "Generate Shortcode",
     "menu_shortcodeUsageReport": "Shortcode usage report",
-    "shortcodeUrl_report_column": "Shortened URL"
+    "shortcodeUrl_report_column": "Shortened URL",
+    "shortener_url_undefined": "Base URL for your shortener was not defined, please update it in Plugin Settings section.",
+    "external_shortcodes_site_undefined": "Site for tracking external redirects was not defined, please update it in Plugin Settings section.",
+    "external_shortcodes_problem": "External shortcodes report."
   }
 }

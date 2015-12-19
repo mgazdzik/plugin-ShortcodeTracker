@@ -1,7 +1,11 @@
 {% block content %}
     <div>
         <h2 piwik-enriched-headline>{{ 'ShortcodeTracker_generate_shortcode_header'|translate }}</h2>
-
+        {%  if shortener_url_undefined is defined %}
+        <div class="alert alert-warning">
+            {{ 'ShortcodeTracker_shortener_url_undefined'|translate }}
+        </div>
+        {% endif  %}
         <form>
             <div class="form-group">
                 <label for="url_to_shorten">{{ 'ShortcodeTracker_input_url'|translate }}</label>

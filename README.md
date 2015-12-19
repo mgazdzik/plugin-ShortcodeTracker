@@ -32,7 +32,7 @@ as it contains steps required to make plugin work with your Piwik instance!
 
 After correctly setting up this plugin (please see section below), you are ready for shortening your Urls.
 
-There is one new section in top reporting menu called "Shortcodes".
+There is one new section in reporting menu called "Shortcodes".
 
 This view gives you possibility to shorten any URL you want and operate with shortcode retrieved.
 
@@ -94,6 +94,11 @@ To select which site should collect redirects:
 
 ## Changelog
 
+* 0.7.0
+    * Improve plugin behavior when plugin settings aren't specified
+    * improve travis build file
+    * assume HTTP schema for redirect url if not provided
+    
 * 0.6.2
     * Sort out mistakenly pushed tag
 
@@ -157,7 +162,6 @@ To select which site should collect redirects:
 ## Backlog
 
 
-
 * Migrate plugin to work with Piwik 2.15 LTS version,
 * Add advanced report for each shortcode
     * stitch every redirect event with following action,
@@ -169,7 +173,6 @@ To select which site should collect redirects:
 * Add integration test for redirect tracking,
 * Add support for at least one caching system (redis/memcache),
 * Improve HTML elements designs/styles,
-* Throw exception/signal in UI in case Shortener URL is not changed,
 * Introduce Shortener base URL validation (in Settings section),
 * introduce value object to store Shortcode,
 * handle case when given idsite has multiple domains assigned (currently it's only for main domain URL),

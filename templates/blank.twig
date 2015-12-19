@@ -1,0 +1,9 @@
+{% block content %}
+    <div>
+        <h2 piwik-enriched-headline>{{ 'ShortcodeTracker_external_shortcodes_problem'|translate }}</h2>
+        {%  if shortener_url_undefined is defined %}
+        <div class="alert alert-warning">
+            {{ 'ShortcodeTracker_shortener_url_undefined'|translate }}
+        </div>
+        {% endif  %}
+{% endblock %}

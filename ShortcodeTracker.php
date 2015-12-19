@@ -71,6 +71,7 @@ class ShortcodeTracker extends \Piwik\Plugin
         $translationKeys[] = 'ShortcodeTracker_generated_shortcode_is';
         $translationKeys[] = 'ShortcodeTracker_rowaction_tooltip_title';
         $translationKeys[] = 'ShortcodeTracker_rowaction_tooltip';
+        $translationKeys[] = 'ShortcodeTracker_shortener_url_undefined';
     }
 
     /**
