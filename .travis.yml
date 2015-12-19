@@ -35,6 +35,7 @@ script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 before_install:
   # do not use the Zend allocator on PHP 5.3 since it will randomly segfault after program execution
   - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
+  - ''
 
 install:
   # move all contents of current repo (which contains the plugin) to a new directory
@@ -112,6 +113,8 @@ before_script:
   - cd tests/PHPUnit
 
 script:
+ - composer require satooshi/php-coveralls
+ - composer update
  - mkdir -p build/logs
  - phpunit --group ShortcodeTracker --coverage-clover build/logs/clover.xml
 

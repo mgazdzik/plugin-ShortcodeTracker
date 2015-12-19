@@ -16,7 +16,4 @@
     "piwik/piwik": "~2.13.0",
     "piwik/piwik-php-tracker": "dev-master"
   },
-  "require-dev": {
-    "satooshi/php-coveralls": "dev-master"
-  }
 }
