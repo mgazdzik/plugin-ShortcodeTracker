@@ -123,10 +123,8 @@ script:
 
 after_script:
   - cd $PIWIK_ROOT_DIR
-  - ls -al build/logs
   - php vendor/bin/coveralls -v -c="plugins/ShortcodeTracker/.coveralls.yml"
-  # change directory back to root travis dir
-
+  - ls -al -R | grep clover.xml
 
   # output contents of files w/ debugging info to screen
   - cat /var/log/nginx/error.log
