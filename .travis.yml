@@ -115,13 +115,10 @@ before_script:
  # - ./tests/travis/setup_webserver.sh
 
   - mkdir -p build/logs/
-  - touch build/logs/iwashere
-  - ls $PIWIK_ROOT_DIR/build/logs/
   - cd tests/PHPUnit
 
 script:
- - pwd
- - ls
+ - ls ../../build/logs/
  - phpunit --group ShortcodeTracker --coverage-clover ../../build/logs/clover.xml
 
 after_script:
