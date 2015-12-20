@@ -118,11 +118,11 @@ before_script:
 
 script:
  - phpunit --group ShortcodeTracker --coverage-clover clover.xml
+ - cat phpunit.xml
 
 after_script:
   - cd $PIWIK_ROOT_DIR
   - php vendor/bin/coveralls -v -c="plugins/ShortcodeTracker/.coveralls.yml"
-  - ls -al -R | grep clover.xml
 
   # output contents of files w/ debugging info to screen
   - cat /var/log/nginx/error.log
