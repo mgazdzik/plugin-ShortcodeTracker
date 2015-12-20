@@ -119,8 +119,9 @@ before_script:
   - cd tests/PHPUnit
 
 script:
+ - touch $PIWIK_ROOT_DIR/build/logs/clover.xml
  - phpunit --group ShortcodeTracker --verbose --coverage-clover $PIWIK_ROOT_DIR/build/logs/clover.xml
- - ls $PIWIK_ROOT_DIR/build/logs
+ - ls -la $PIWIK_ROOT_DIR/build/logs
 
 after_script:
   - cd $PIWIK_ROOT_DIR
