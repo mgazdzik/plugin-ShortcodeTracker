@@ -120,6 +120,7 @@ before_script:
 
 script:
  - touch $PIWIK_ROOT_DIR/build/logs/clover.xml
+ - chmod 777 $PIWIK_ROOT_DIR/build/logs/clover.xml
  - phpunit --group ShortcodeTracker --verbose --coverage-clover $PIWIK_ROOT_DIR/build/logs/clover.xml
  - ls -la $PIWIK_ROOT_DIR/build/logs
 
