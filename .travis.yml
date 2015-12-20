@@ -117,7 +117,8 @@ before_script:
   - cd tests/PHPUnit
 
 script:
- - phpunit --group ShortcodeTracker --coverage-clover clover.xml
+ - phpunit --coverage-clover clover.xml --verbose
+ - cat clover.xml
  - cat phpunit.xml
 
 after_script:
