@@ -115,12 +115,12 @@ before_script:
  # - ./tests/travis/setup_webserver.sh
 
   - mkdir -p build/logs/
-  - chmod -R 777 build/logs
+  - chmod -R 777 build/logs/
   - cd tests/PHPUnit
 
 script:
- - phpunit --group ShortcodeTracker --coverage-clover ../../build/logs/clover.xml
- - ls ../../build/logs
+ - phpunit --group ShortcodeTracker --verbose --coverage-clover $PIWIK_ROOT_DIR/build/logs/clover.xml
+ - ls $PIWIK_ROOT_DIR/build/logs
 
 after_script:
   - cd $PIWIK_ROOT_DIR
