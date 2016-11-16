@@ -310,8 +310,8 @@ class API extends \Piwik\Plugin\API
         if ($shortCode === null) {
             throw new UnableToRedirectException(Piwik::translate('ShortcodeTracker_unable_to_perform_redirect'));
         }
-
-        header('Location: ' . $shortCode['url']);
+     
+        header('Location: ' . str_replace('amp;', '', $shortCode['url']);
     }
 
 
