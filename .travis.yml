@@ -4,11 +4,23 @@ language: php
 
 php:
   - 5.6
-  - 5.3.3
+  - 5.3
 #  - hhvm
 
 services:
   - redis-server
+
+addons:
+  apt:
+    sources:
+      - deadsnakes
+
+    packages:
+      - python2.6
+      - python2.6-dev
+      - nginx
+      - realpath
+      - lftp
 
 # Separate different test suites
 env:
@@ -17,7 +29,6 @@ env:
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
     - PIWIK_LATEST_STABLE_TEST_TARGET=2.15.0
   matrix:
-    - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=minimum_required_piwik
 
 matrix:
@@ -52,22 +63,22 @@ install:
   - '[ -d ./tests/travis/.git ] || sh -c "rm -rf ./tests/travis && git clone https://github.com/piwik/travis-scripts.git ./tests/travis"'
   - cd ./tests/travis ; git checkout master ; cd ../..
 
-  - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --plugin=\"ShortcodeTracker\" --verbose"
+#  - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --plugin=\"ShortcodeTracker\" --verbose"
 #  - '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
 
   - ./tests/travis/checkout_test_against_branch.sh
 
-  - '[ ! -f ./tests/travis/install_mysql_5.6.sh ] || ./tests/travis/install_mysql_5.6.sh'
-
-  # Make sure we use Python 2.6
-  - '[ ! -f ./tests/travis/install_python_2.6.sh ] || ./tests/travis/install_python_2.6.sh'
+  - '[ "$PLUGIN_NAME" == "" ] || [ ! -f ./tests/travis/check_plugin_compatible_with_piwik.php ] || php ./tests/travis/check_plugin_compatible_with_piwik.php "$PLUGIN_NAME"'
 
   - ./tests/travis/configure_git.sh
 
+  # disable tls for php 5.3 as openssl isn't available
+  - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && composer config -g -- disable-tls true || true'
+
   # travis now complains about this failing 9 times out of 10, so removing it
   #- travis_retry composer self-update
-
-  - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install'
+  - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install' 
+ 
 
   # move plugin contents to folder in the plugins subdirectory
   - rm -rf plugins/$PLUGIN_NAME
@@ -77,7 +88,7 @@ install:
   - ./tests/travis/checkout_dependent_plugins.sh
 
 before_script:
-  - phpenv config-rm xdebug.ini;
+  - if [[ "$TRAVIS_PHP_VERSION" != 7* ]]; then phpenv config-rm xdebug.ini; fi
 
   # add always_populate_raw_post_data=-1 to php.ini
   - echo "always_populate_raw_post_data=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -85,13 +96,21 @@ before_script:
   # disable opcache to avoid random failures on travis
   - echo "opcache.enable=0" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
+  # make tmpfs and run MySQL on it for reasonnable performance
+  - sudo mkdir /mnt/ramdisk
+  - sudo mount -t tmpfs -o size=1024m tmpfs /mnt/ramdisk
+  - sudo stop mysql
+  - sudo mv /var/lib/mysql /mnt/ramdisk
+  - sudo ln -s /mnt/ramdisk/mysql /var/lib/mysql
+  - sudo start mysql
+
   # print out mysql information
   - mysql --version
   - mysql -e "SELECT VERSION();"
 
   # configure mysql
   - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES'" # Travis default
-  # try to avoid mysql has gone away errors
+  # try to avoid 'mysql has gone away' errors
   - mysql -e "SET GLOBAL wait_timeout = 36000;"
   - mysql -e "SET GLOBAL max_allowed_packet = 134209536;"
   - mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
@@ -107,7 +126,7 @@ before_script:
   - mysql -e 'create database piwik_tests;'
 
   - ./tests/travis/prepare.sh
- # - ./tests/travis/setup_webserver.sh
+  - ./tests/travis/setup_webserver.sh
 
   - cd tests/PHPUnit
 
@@ -116,7 +135,7 @@ after_script:
   - cd $PIWIK_ROOT_DIR
 
   # output contents of files w/ debugging info to screen
-  - cat /var/log/nginx/error.log
+  - cat $PIWIK_ROOT_DIR/tests/travis/error.log
   - cat $PIWIK_ROOT_DIR/tmp/php-fpm.log
   - cat $PIWIK_ROOT_DIR/tmp/logs/piwik.log
   - cat $PIWIK_ROOT_DIR/config/config.ini.php

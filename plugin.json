@@ -1,11 +1,11 @@
 {
     "name": "ShortcodeTracker",
-    "version": "0.6.2",
+    "version": "0.7.0",
     "description": "Plugin allowing user to create shortcodes and track their usage within Piwik. Also integrates with UI to deliver user-friendly interaction.",
     "theme": false,
     "keywords": ["shortcode", "shortener", "redirect"],
     "require": {
-        "piwik": ">=2.14.0"
+        "piwik": ">=2.16.1"
     },
     "license": "GPLv3",
     "homepage": "http:\/\/mgazdzik.pl\/shortcodetracker",

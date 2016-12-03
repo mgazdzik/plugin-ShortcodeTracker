@@ -94,6 +94,10 @@ To select which site should collect redirects:
 
 ## Changelog
 
+* 0.7.0
+    * Handled html-encoded entities in URLs (for ex. http://example.com?param1=foo&param2=bar was html encoded and therefore it was breaking redirects) 
+    * Added some screenshots for Marketplace
+    
 * 0.6.2
     * Sort out mistakenly pushed tag
 
