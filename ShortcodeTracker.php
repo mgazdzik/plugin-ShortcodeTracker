@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\ShortcodeTracker;
 
-use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\ShortcodeTracker\Model\Model;
 use Piwik\Plugins\ShortcodeTracker\Tracker\RedirectTracker;

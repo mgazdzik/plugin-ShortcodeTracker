@@ -5,7 +5,7 @@
     "theme": false,
     "keywords": ["shortcode", "shortener", "redirect"],
     "require": {
-        "piwik": ">=2.14.0"
+        "piwik": ">=2.16.1"
     },
     "license": "GPLv3",
     "homepage": "http:\/\/mgazdzik.pl\/shortcodetracker",
