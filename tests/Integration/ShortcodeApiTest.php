@@ -16,13 +16,14 @@ use Piwik\Plugins\ShortcodeTracker\Model\Model;
 use Piwik\Plugins\ShortcodeTracker\Settings;
 use Piwik\Plugins\ShortcodeTracker\ShortcodeTracker;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * @group ShortcodeTracker
  * @group ShortcodeApi
  * @group Plugins
  */
-class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
+class ShortcodeApiTest extends SystemTestCase
 {
     /**
      * @var API
@@ -91,7 +92,7 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerateShortcodeForUrlException($invalidUrl)
     {
-        $expected = 'ShortcodeTracker_unable_to_generate_shortcode';
+        $expected = 'Unable to generate shortcode.';
         $this->api->setGenerator(new Generator($this->modelMock, new UrlValidator(), $this->sitesManagerApi));
 
         $actual = $this->api->generateShortcodeForUrl($invalidUrl);
@@ -127,11 +128,11 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
         $mock->expects($this->any())
             ->method('getAllSites')
             ->willReturn(array(
-                             array(
-                                 'idsite' => 1,
-                                 'main_url' => 'http://foo.bar',
-                             ),
-                         ));
+                array(
+                    'idsite' => 1,
+                    'main_url' => 'http://foo.bar',
+                ),
+            ));
         $this->sitesManagerApi = $mock;
     }
 
@@ -150,7 +151,6 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUrlFromShortcodeFailure()
     {
-        $expected = array('url' => 'http://foo.bar');
         $this->modelMock->expects($this->any())
             ->method('selectShortcodeByCode')
             ->willReturn(null);
@@ -158,7 +158,7 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
 
         $actual = $this->api->getUrlFromShortcode('456zxc');
 
-        $this->assertEquals('ShortcodeTracker_invalid_shortcode', $actual);
+        $this->assertEquals('Invalid shortcode.', $actual);
     }
 
     public function testPerformRedirectForShortcode()
@@ -166,7 +166,13 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
         $this->modelMock->expects($this->once())
             ->method('selectShortcodeByCode')
             ->with('123zxc')
-            ->willReturn(array('url' => 'http://foo.bar'));
+            ->willReturn(
+                [
+                    'url' => 'http://foo.bar',
+                    'idsite' => 1,
+                    'code' => '123zxc'
+                ]
+            );
 
         try {
             $this->api->performRedirectForShortcode('123zxc');
@@ -182,11 +188,26 @@ class ShortcodeApiTest extends \PHPUnit_Framework_TestCase
             ->method('selectShortcodeByCode')
             ->willReturn(null);
         $this->setExpectedException('Piwik\Plugins\ShortcodeTracker\Exception\UnableToRedirectException',
-                                    'ShortcodeTracker_unable_to_perform_redirect');
+            'Oops, couldn\'t complete redirect! Please try using valid shortcode.');
 
         $this->api->performRedirectForShortcode('123zxc');
     }
 
+    public function testHtmlEncodedEntitiesStoredProperly()
+    {
+        $api = new API();
+        $model = new Model();
+        $api->setModel($model);
+        $api->setSitesManagerAPI($this->sitesManagerApi);
+
+        $url = 'http://example.com?param1=foo&amp;param2=bar';
+
+        $code = $api->generateShortcodeForUrl($url);
+
+        $resultUrl = $api->getUrlFromShortcode($code);
+
+        $this->assertEquals(html_entity_decode($url), $resultUrl);
+    }
 
     /**
      * @param $methodName

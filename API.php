@@ -257,25 +257,26 @@ class API extends \Piwik\Plugin\API
      */
     public function generateShortcodeForUrl($url, $useExistingCodeIfAvailable = false)
     {
-
         $this->checkUserNotAnonymous();
+
+        $sanitizedUrl = html_entity_decode($url);
 
         $shortcode = false;
 
         if ($useExistingCodeIfAvailable === "true") {
-            $shortcode = $this->getModel()->selectShortcodeByUrl($url);
+            $shortcode = $this->getModel()->selectShortcodeByUrl($sanitizedUrl);
         }
 
         if ($shortcode === false) {
             $generator = $this->getGenerator();
-            $shortcode = $generator->generateShortcode($url);
-            $shortcodeIdsite = $generator->getIdSiteForUrl($url);
+            $shortcode = $generator->generateShortcode($sanitizedUrl);
+            $shortcodeIdsite = $generator->getIdSiteForUrl($sanitizedUrl);
 
             if ($shortcode === false) {
                 return Piwik::translate('ShortcodeTracker_unable_to_generate_shortcode');
             }
 
-            $this->getModel()->insertShortcode($shortcode, $url, $shortcodeIdsite);
+            $this->getModel()->insertShortcode($shortcode, $sanitizedUrl, $shortcodeIdsite);
         }
 
         return $shortcode;
