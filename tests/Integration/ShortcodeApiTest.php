@@ -57,7 +57,9 @@ class ShortcodeApiTest extends SystemTestCase
             $this->api->setGenerator($this->getGeneratorMock('generateShortcode', '123abc'));
 
             /** @var SystemSettings $pluginSettingsMock */
-            $pluginSettingsMock = $this->getMock('Piwik\Plugins\ShortcodeTracker\SystemSettings');
+            $pluginSettingsMock = $this->getMockBuilder('Piwik\Plugins\ShortcodeTracker\SystemSettings')
+                ->disableOriginalConstructor()
+                ->getMock();
 
             $pluginSettingsMock->expects($this->once())
                 ->method('getSetting')
