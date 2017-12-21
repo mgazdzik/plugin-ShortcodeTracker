@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\ShortcodeTracker;
 
 use Piwik\DataTable;
@@ -37,6 +38,11 @@ class API extends \Piwik\Plugin\API
      * @var UrlValidator
      */
     private $urlValidator;
+
+    /**
+     * @var ShortcodeValidator
+     */
+    private $shortCodeValidator;
 
     /**
      * @var ShortcodeCache
@@ -111,6 +117,28 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @return ShortcodeValidator
+     */
+    public function getShortCodeValidator()
+    {
+        if ($this->shortCodeValidator === null) {
+            $this->shortCodeValidator = new ShortcodeValidator();
+        }
+
+        return $this->shortCodeValidator;
+    }
+
+    /**
+     * @param ShortcodeValidator $shortCodeValidator
+     */
+    public function setShortCodeValidator($shortCodeValidator)
+    {
+        $this->checkUserNotAnonymous();
+        $this->shortCodeValidator = $shortCodeValidator;
+    }
+
+
+    /**
      * @hideForAll
      * @codeCoverageIgnore
      * @return ShortcodeCache
@@ -145,7 +173,11 @@ class API extends \Piwik\Plugin\API
     {
         $this->checkUserNotAnonymous();
         if ($this->generator === null) {
-            $this->generator = new Generator($this->getModel(), $this->getUrlValidator(), $this->getSitesManagerAPI());
+            $this->generator = new Generator(
+                $this->getModel(),
+                $this->getUrlValidator(),
+                $this->getShortcodeValidator(),
+                $this->getSitesManagerAPI());
         }
 
         return $this->generator;
@@ -433,7 +465,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Another example method that returns a data table.
-     * @param int    $idSite
+     * @param int $idSite
      * @param string $period
      * @param string $date
      * @param bool|string $segment

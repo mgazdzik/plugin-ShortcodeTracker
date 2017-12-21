@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\ShortcodeTracker\tests\Unit;
 
 use Piwik\Plugins\ShortcodeTracker\Component\Generator;
+use Piwik\Plugins\ShortcodeTracker\Component\ShortcodeValidator;
 use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
 
 /**
@@ -56,8 +57,9 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $modelMock = $this->getModelMockForUniqueTest();
         $urlValidator = new UrlValidator();
+        $shortcodeValidator = new ShortcodeValidator();
         $sitesManagerAPI = $this->getSitesManagerAPIMock();
-        $this->component = new Generator($modelMock, $urlValidator, $sitesManagerAPI);
+        $this->component = new Generator($modelMock, $urlValidator, $shortcodeValidator, $sitesManagerAPI);
 
         $actual = array();
         $actual[] = $this->component->generateShortcode('http://www.piwik.org');
@@ -70,8 +72,9 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $modelMock = $this->getModelMockWithResponse('');
         $urlValidator = new UrlValidator();
+        $shortcodeValidator = new ShortcodeValidator();
         $sitesManagerAPI = $this->getSitesManagerAPIMock();
-        $this->component = new Generator($modelMock, $urlValidator, $sitesManagerAPI);
+        $this->component = new Generator($modelMock, $urlValidator, $shortcodeValidator, $sitesManagerAPI);
 
         $idsite = $this->component->getIdSiteForUrl('https://bar.foo');
         $this->assertEquals(2, $idsite);
