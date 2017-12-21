@@ -29,6 +29,11 @@ class Generator
     private $urlValidator;
 
     /**
+     * @var  ShortcodeValidator
+     */
+    private $shortcodeValidator;
+
+    /**
      * @var SitesManagerAPI;
      */
     private $sitesManager;
@@ -46,11 +51,19 @@ class Generator
 
     /**
      * @param ModelInterface $model
+     * @param UrlValidator $urlValidator
+     * @param ShortcodeValidator $shortcodeValidator
+     * @param $sitesManagerAPI
      */
-    public function __construct(ModelInterface $model, UrlValidator $urlValidator, $sitesManagerAPI)
+    public function __construct(
+        ModelInterface $model,
+        UrlValidator $urlValidator,
+        ShortcodeValidator $shortcodeValidator,
+        $sitesManagerAPI)
     {
         $this->model = $model;
         $this->urlValidator = $urlValidator;
+        $this->shortcodeValidator = $shortcodeValidator;
         $this->sitesManager = $sitesManagerAPI;
     }
 
@@ -95,7 +108,8 @@ class Generator
         $attempts = 1;
         while ($attempts < self::$GENERATIONS_MAX_ATTEMPT_NUMBER) {
             $shortcode = $this->generate($url);
-            if ($this->checkIfUnique($shortcode)) {
+            if ($this->checkIfUnique($shortcode)
+            && $this->shortcodeValidator->validate($shortcode)) {
                 return $shortcode;
             }
             $attempts++;
