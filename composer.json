@@ -13,7 +13,7 @@
     }
   ],
   "require": {
-    "piwik/piwik": ">=2.16.1",
+    "piwik/piwik": ">=3.2",
     "piwik/piwik-php-tracker": "dev-master"
   }
 }
