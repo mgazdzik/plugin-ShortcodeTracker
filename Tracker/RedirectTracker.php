@@ -4,7 +4,7 @@ namespace Piwik\Plugins\ShortcodeTracker\Tracker;
 
 
 use Piwik\Log;
-use Piwik\Plugins\ShortcodeTracker\Settings;
+use Piwik\Plugins\ShortcodeTracker\SystemSettings;
 use Piwik\Plugins\ShortcodeTracker\ShortcodeTracker;
 use Piwik\SettingsPiwik;
 
@@ -14,7 +14,7 @@ class RedirectTracker
 
     public function __construct()
     {
-        $this->shortcodeTrackerSettings = new Settings('ShortcodeTracker');
+        $this->shortcodeTrackerSettings = new SystemSettings('ShortcodeTracker');
     }
 
     public function recordRedirectAction($shortcode)

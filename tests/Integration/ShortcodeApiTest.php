@@ -13,7 +13,7 @@ use Piwik\Plugins\ShortcodeTracker\API;
 use Piwik\Plugins\ShortcodeTracker\Component\Generator;
 use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
 use Piwik\Plugins\ShortcodeTracker\Model\Model;
-use Piwik\Plugins\ShortcodeTracker\Settings;
+use Piwik\Plugins\ShortcodeTracker\SystemSettings;
 use Piwik\Plugins\ShortcodeTracker\ShortcodeTracker;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -56,8 +56,8 @@ class ShortcodeApiTest extends SystemTestCase
         try {
             $this->api->setGenerator($this->getGeneratorMock('generateShortcode', '123abc'));
 
-            /** @var Settings $pluginSettingsMock */
-            $pluginSettingsMock = $this->getMock('Piwik\Plugins\ShortcodeTracker\Settings');
+            /** @var SystemSettings $pluginSettingsMock */
+            $pluginSettingsMock = $this->getMock('Piwik\Plugins\ShortcodeTracker\SystemSettings');
 
             $pluginSettingsMock->expects($this->once())
                 ->method('getSetting')
