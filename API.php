@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\ShortcodeTracker;
 
 use Piwik\DataTable;
@@ -39,6 +40,11 @@ class API extends \Piwik\Plugin\API
     private $urlValidator;
 
     /**
+     * @var ShortcodeValidator
+     */
+    private $shortCodeValidator;
+
+    /**
      * @var ShortcodeCache
      */
     private $cache;
@@ -54,7 +60,7 @@ class API extends \Piwik\Plugin\API
     private $sitesManagerAPI;
 
     /**
-     * @var Settings
+     * @var SystemSettings
      */
     private $pluginSettings;
 
@@ -111,6 +117,28 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @return ShortcodeValidator
+     */
+    public function getShortCodeValidator()
+    {
+        if ($this->shortCodeValidator === null) {
+            $this->shortCodeValidator = new ShortcodeValidator();
+        }
+
+        return $this->shortCodeValidator;
+    }
+
+    /**
+     * @param ShortcodeValidator $shortCodeValidator
+     */
+    public function setShortCodeValidator($shortCodeValidator)
+    {
+        $this->checkUserNotAnonymous();
+        $this->shortCodeValidator = $shortCodeValidator;
+    }
+
+
+    /**
      * @hideForAll
      * @codeCoverageIgnore
      * @return ShortcodeCache
@@ -145,7 +173,11 @@ class API extends \Piwik\Plugin\API
     {
         $this->checkUserNotAnonymous();
         if ($this->generator === null) {
-            $this->generator = new Generator($this->getModel(), $this->getUrlValidator(), $this->getSitesManagerAPI());
+            $this->generator = new Generator(
+                $this->getModel(),
+                $this->getUrlValidator(),
+                $this->getShortcodeValidator(),
+                $this->getSitesManagerAPI());
         }
 
         return $this->generator;
@@ -166,12 +198,12 @@ class API extends \Piwik\Plugin\API
     /**
      * @hideForAll
      * @codeCoverageIgnore
-     * @return Settings
+     * @return SystemSettings
      */
     public function getPluginSettings()
     {
         if ($this->pluginSettings === null) {
-            $this->pluginSettings = new Settings('ShortcodeTracker');
+            $this->pluginSettings = new SystemSettings();
         }
 
         return $this->pluginSettings;
@@ -181,7 +213,7 @@ class API extends \Piwik\Plugin\API
      * @hideForAll
      * @codeCoverageIgnore
      *
-     * @param Settings $pluginSettings
+     * @param SystemSettings $pluginSettings
      */
     public function setPluginSettings($pluginSettings)
     {
@@ -345,7 +377,7 @@ class API extends \Piwik\Plugin\API
     public function getExternalShortcodeUsageReport($idSite, $period, $date, $segment = false, $columns = false)
     {
         $this->checkUserNotAnonymous();
-        /** @var Settings $settings */
+        /** @var SystemSettings $settings */
         $settings = $this->getPluginSettings();
         $idSite = $settings->getSetting(ShortcodeTracker::SHORTENER_EXTERNAL_SHORTCODES_IDSITE)->getValue();
         $eventsApi = EventsAPI::getInstance();
@@ -428,6 +460,24 @@ class API extends \Piwik\Plugin\API
         $filter->filter($report);
 
         return $report;
+    }
+
+
+    /**
+     * Another example method that returns a data table.
+     * @param int $idSite
+     * @param string $period
+     * @param string $date
+     * @param bool|string $segment
+     * @return DataTable
+     */
+    public function getShortcodes($idSite, $period, $date, $segment = false)
+    {
+        $table = new DataTable();
+
+        $table->addRowFromArray(array(Row::COLUMNS => array('nb_visits' => 5)));
+
+        return $table;
     }
 
 }

@@ -1,24 +1,24 @@
 {% block content %}
-    <div>
+    <div piwik-form>
         <h2 piwik-enriched-headline>{{ 'ShortcodeTracker_generate_shortcode_header'|translate }}</h2>
 
         <form>
-            <div class="form-group">
-                <label for="url_to_shorten">{{ 'ShortcodeTracker_input_url'|translate }}</label>
-
-                <div class="form-help">{{ 'ShortcodeTracker_url_to_shorten'|translate }}</div>
-                <input id="url_to_shorten" value=""/>
-
-                <div class="form-help">{{ 'ShortcodeTracker_use_existing_shortcode_help'|translate }}</div>
-                <label class="radio">
-                    <input type="checkbox" id="useExistingShortcodeIfAvailable" />
-                    {{ 'ShortcodeTracker_use_existing_shortcode_if_available'|translate }}
-                </label>
-
-
+            <div piwik-field uicontrol="text" name="url_to_shorten"
+                 title="{{ 'ShortcodeTracker_input_url'|translate }}"
+                 introduction="{{ 'ShortcodeTracker_url_to_shorten'|translate }}"
+                 placeholder="ex. http://piwik.com">
             </div>
-            <button type="button"
-                    id="url_to_shorten_submit">{{ 'ShortcodeTracker_generate_shortcode'|translate }}</button>
+
+            <div piwik-field uicontrol="checkbox" name="useExistingShortcodeIfAvailable"
+                 title="{{ 'ShortcodeTracker_use_existing_shortcode_help'|translate }}"
+                 introduction="{{ 'ShortcodeTracker_use_existing_shortcode_if_available'|translate }}"
+                 >
+            </div>
+
+
+
+            <input type="button" class="btn" value="{{ 'ShortcodeTracker_generate_shortcode'|translate }}"
+                   id="url_to_shorten_submit"/>
         </form>
     </div>
     {% import 'ajaxMacros.twig' as ajax %}

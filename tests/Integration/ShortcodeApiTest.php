@@ -11,9 +11,10 @@ namespace Piwik\Plugins\ShortcodeTracker\tests\Unit;
 use Piwik\Access;
 use Piwik\Plugins\ShortcodeTracker\API;
 use Piwik\Plugins\ShortcodeTracker\Component\Generator;
+use Piwik\Plugins\ShortcodeTracker\Component\ShortcodeValidator;
 use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
 use Piwik\Plugins\ShortcodeTracker\Model\Model;
-use Piwik\Plugins\ShortcodeTracker\Settings;
+use Piwik\Plugins\ShortcodeTracker\SystemSettings;
 use Piwik\Plugins\ShortcodeTracker\ShortcodeTracker;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
@@ -56,8 +57,10 @@ class ShortcodeApiTest extends SystemTestCase
         try {
             $this->api->setGenerator($this->getGeneratorMock('generateShortcode', '123abc'));
 
-            /** @var Settings $pluginSettingsMock */
-            $pluginSettingsMock = $this->getMock('Piwik\Plugins\ShortcodeTracker\Settings');
+            /** @var SystemSettings $pluginSettingsMock */
+            $pluginSettingsMock = $this->getMockBuilder('Piwik\Plugins\ShortcodeTracker\SystemSettings')
+                ->disableOriginalConstructor()
+                ->getMock();
 
             $pluginSettingsMock->expects($this->once())
                 ->method('getSetting')
@@ -93,7 +96,12 @@ class ShortcodeApiTest extends SystemTestCase
     public function testGenerateShortcodeForUrlException($invalidUrl)
     {
         $expected = 'Unable to generate shortcode.';
-        $this->api->setGenerator(new Generator($this->modelMock, new UrlValidator(), $this->sitesManagerApi));
+        $this->api->setGenerator(new Generator(
+            $this->modelMock,
+            new UrlValidator(),
+            new ShortcodeValidator(),
+            $this->sitesManagerApi)
+        );
 
         $actual = $this->api->generateShortcodeForUrl($invalidUrl);
 
