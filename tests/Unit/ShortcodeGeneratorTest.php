@@ -34,8 +34,9 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $modelMock = $this->getModelMockWithResponse($modelMockValue);
         $urlValidator = new UrlValidator();
+        $shortcodeValidator = new ShortcodeValidator();
         $sitesManagerAPI = $this->getSitesManagerAPIMock();
-        $this->component = new Generator($modelMock, $urlValidator, $sitesManagerAPI);
+        $this->component = new Generator($modelMock, $urlValidator,$shortcodeValidator, $sitesManagerAPI);
         $actual = $this->component->generateShortcode($url);
         $this->assertNotEmpty($actual);
         $this->assertEquals(6, strlen($actual));
