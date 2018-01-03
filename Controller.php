@@ -17,42 +17,15 @@ use Piwik\View;
  */
 class Controller extends \Piwik\Plugin\Controller
 {
-    public function index()
-    {
-        $view = new View('@ShortcodeTracker/index');
-
-        return $view->render();
-    }
-
-    public function getShortcodeUsageReport()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getExternalShortcodeUsageReport()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getShortenedPagesReport()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
-    public function getShortenedExternalPagesReport()
-    {
-        return $this->renderReport(__FUNCTION__);
-    }
-
     public function showShortcodePopup()
     {
         $shortcode = Common::getRequestVar('shortcode');
-        $pluginSettings = new Settings('ShortcodeTracker');
+        $pluginSettings = new SystemSettings();
         $baseUrl = $pluginSettings->getSlashedSetting(ShortcodeTracker::SHORTENER_URL_SETTING);
 
         $view = new View('@ShortcodeTracker/singleShortcode');
         $codeValidator = new ShortcodeValidator();
-        if ($codeValidator->validate($shortcode)) {
+        if ($codeValidator->validate($shortcode) === true) {
             $view->header = 'ShortcodeTracker_generated_shortcode_is';
             $view->text = $baseUrl . $shortcode;
             $view->containerClass = 'alert-success';

@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\ShortcodeTracker;
 
-use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\ShortcodeTracker\Model\Model;
 use Piwik\Plugins\ShortcodeTracker\Tracker\RedirectTracker;
@@ -93,11 +92,14 @@ class ShortcodeTracker extends \Piwik\Plugin
     public function dataTableConfigure(ViewDataTable $view)
     {
         if (
-            ($view->requestConfig->apiMethodToRequestDataTable === 'ShortcodeTracker.getShortcodeUsageReport') ||
-            $view->requestConfig->apiMethodToRequestDataTable === 'ShortcodeTracker.getExternalShortcodeUsageReport'
+            ($view->requestConfig->apiMethodToRequestDataTable === 'ShortcodeTracker.getShortcodeUsageReport')
+             || $view->requestConfig->apiMethodToRequestDataTable === 'ShortcodeTracker.getExternalShortcodeUsageReport'
+             || $view->requestConfig->apiMethodToRequestDataTable === 'ShortcodeTracker.getShortenedExternalPagesReport'
+             || $view->requestConfig->apiMethodToRequestDataTable === 'ShortcodeTracker.getShortenedPagesReport'
+
         ) {
             $view->config->show_insights = false;
-            $view->config->show_table_all_columns = false;
+            $view->config->disable_row_evolution = true;
             $view->config->show_all_views_icons = false;
         }
     }
