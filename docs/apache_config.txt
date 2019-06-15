@@ -1,0 +1,9 @@
+# BEGIN Matomo Short URL
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f  
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteBase /
+RewriteRule ^go/([a-zA-Z0-9]{6})$ /index.php?module=API&method=ShortcodeTracker.performRedirectForShortcode&code=$1 [L]
+</IfModule>
+# END Matomo Short URL

@@ -5,7 +5,7 @@
 | Master | [![Build Status](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker.svg?branch=master)](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker) |
 | Develop | [![Build Status](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker.svg?branch=develop)](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker) |
 
-## Description
+### Description
 
 Plugin allows to turn Piwik instance into URL Shortener.
 
@@ -28,7 +28,7 @@ Goodness coming:
 Before using, please read content in [`Setup`](https://github.com/mgazdzik/plugin-ShortcodeTracker#setup) section 
 as it contains steps required to make plugin work with your Piwik instance!
 
-## Usage
+### Usage
 
 After correctly setting up this plugin (please see section below), you are ready for shortening your Urls.
 
@@ -43,9 +43,9 @@ Piwik instance.
 
 Enjoy!
 
-## Setup
+### Setup
 
-### Webserver
+#### Webserver
 Besides of functional Piwik instance with this plugin enabled you will also need special configuration for your webserver.
 
 It's purpose is to redirect any short url hitting your server to proper API method doing the magic.
@@ -59,7 +59,7 @@ Below you can find example configurations
 admin for advisory!**
 
 
-### Plugin
+#### Plugin
 
 Before you can start shortening your URLs you need to perform following steps:
 
@@ -77,7 +77,7 @@ External redirects tracking section below),
 
 This is necessary to perform, as otherwise you will not be able to generate shortened URLs or use them with Piwik.
 
-### External redirects tracking
+#### External redirects tracking
 
 It is possible to also track redirect actions for external URLs (i.e. which URL doesn't match any page tracked within
 your Piwik instance). However, it is required to decide to which site this traffic will be attributed to.
