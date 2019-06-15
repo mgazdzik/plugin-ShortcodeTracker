@@ -303,7 +303,7 @@ class API extends \Piwik\Plugin\API
             $generator = $this->getGenerator();
             $shortcode = $generator->generateShortcode($sanitizedUrl);
             $shortcodeIdsite = $generator->getIdSiteForUrl($sanitizedUrl);
-
+            $this->checkUserHasWriteAccess($shortcodeIdsite);
             if ($shortcode === false) {
                 return Piwik::translate('ShortcodeTracker_unable_to_generate_shortcode');
             }
@@ -428,6 +428,14 @@ class API extends \Piwik\Plugin\API
     protected function checkUserNotAnonymous()
     {
         Piwik::checkUserIsNotAnonymous();
+    }
+
+    protected function checkUserHasWriteAccess($idSite = null)
+    {
+        if ($idSite !== null) {
+            Piwik::checkUserHasWriteAccess($idSite);
+        }
+        Piwik::checkUserHasSomeAdminAccess();
     }
 
     /**
