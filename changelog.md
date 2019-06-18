@@ -1,4 +1,10 @@
 ## Changelog
+* 1.1.1
+    * Fix generating reports and shortcodes for admin users
+
+* 1.1.0
+    * Attempt to limit shortcode generation to only admin access users
+    
 * 1.0.0
     * Updated plugin to work with Piwik 3.x
 
