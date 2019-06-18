@@ -5,7 +5,7 @@
 | Master | [![Build Status](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker.svg?branch=master)](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker) |
 | Develop | [![Build Status](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker.svg?branch=develop)](https://travis-ci.org/mgazdzik/plugin-ShortcodeTracker) |
 
-### Description
+## Description
 
 Plugin allows to turn Piwik instance into URL Shortener.
 
@@ -28,7 +28,7 @@ Goodness coming:
 Before using, please read content in [`Setup`](https://github.com/mgazdzik/plugin-ShortcodeTracker#setup) section 
 as it contains steps required to make plugin work with your Piwik instance!
 
-### Usage
+## Usage
 
 After correctly setting up this plugin (please see section below), you are ready for shortening your Urls.
 
