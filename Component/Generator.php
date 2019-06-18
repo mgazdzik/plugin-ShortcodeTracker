@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\ShortcodeTracker\Component;
 
+use Piwik\Access;
 use Piwik\Plugins\ShortcodeTracker\Model\ModelInterface;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
 
@@ -135,7 +136,8 @@ class Generator
      */
     public function getIdSiteForUrl($url)
     {
-        $allSites = $this->sitesManager->getAllSites();
+        $allSites = Access::doAsSuperUser(function(){ return $this->sitesManager->getAllSites();});
+
         foreach ($allSites as $site) {
             if (strpos($url, $site['main_url']) !== false) {
                 return $site['idsite'];
