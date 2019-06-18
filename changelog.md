@@ -1,4 +1,7 @@
 ## Changelog
+* 1.1.2
+    * Force update of plugin in Matomo plugin Marketplace
+
 * 1.1.1
     * Fix generating reports and shortcodes for admin users
 
