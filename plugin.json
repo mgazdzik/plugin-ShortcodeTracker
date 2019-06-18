@@ -11,7 +11,7 @@
     "require": {
         "piwik": ">=3.2.0-stable,<4.0.0-b1"
     },
-    "license": "GPLv3",
+    "license": "GPL-3.0",
     "homepage": "http:\/\/mgazdzik.pl\/shortcodetracker",
     "authors": [
         {
