@@ -96,9 +96,6 @@ To select which site should collect redirects:
 
 ## Backlog
 
-
-
-* Migrate plugin to work with Piwik 2.15 LTS version,
 * Add advanced report for each shortcode
     * stitch every redirect event with following action,
     * add new referrer type (shortcode),

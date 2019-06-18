@@ -270,7 +270,6 @@ class API extends \Piwik\Plugin\API
 
         $settings = $this->getPluginSettings();
         $baseUrl = $settings->getSetting(ShortcodeTracker::SHORTENER_URL_SETTING);
-
         $response = $this->generateShortcodeForUrl($url, $useExistingCodeIfAvailable);
 
         $shortcodeValidator = new ShortcodeValidator();
@@ -289,9 +288,10 @@ class API extends \Piwik\Plugin\API
      */
     public function generateShortcodeForUrl($url, $useExistingCodeIfAvailable = false)
     {
-        $this->checkUserNotAnonymous();
-
         $sanitizedUrl = html_entity_decode($url);
+        $generator = $this->getGenerator();
+        $shortcodeIdsite = $generator->getIdSiteForUrl($sanitizedUrl);
+        $this->checkUserHasWriteAccess($shortcodeIdsite);
 
         $shortcode = false;
 
@@ -300,10 +300,7 @@ class API extends \Piwik\Plugin\API
         }
 
         if ($shortcode === false) {
-            $generator = $this->getGenerator();
             $shortcode = $generator->generateShortcode($sanitizedUrl);
-            $shortcodeIdsite = $generator->getIdSiteForUrl($sanitizedUrl);
-            $this->checkUserHasWriteAccess($shortcodeIdsite);
             if ($shortcode === false) {
                 return Piwik::translate('ShortcodeTracker_unable_to_generate_shortcode');
             }
@@ -432,10 +429,10 @@ class API extends \Piwik\Plugin\API
 
     protected function checkUserHasWriteAccess($idSite = null)
     {
-        if ($idSite !== null) {
+        if ($idSite != false) {
             Piwik::checkUserHasWriteAccess($idSite);
         }
-        Piwik::checkUserHasSomeAdminAccess();
+        Piwik::checkUserHasSuperUserAccess();
     }
 
     /**
