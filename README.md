@@ -52,8 +52,8 @@ It's purpose is to redirect any short url hitting your server to proper API meth
 
 Below you can find example configurations
 
-* [for NGINX webserver vhost](docs/nginx_config.txt)
-* [for Apache2 webserver .htaccess file](docs/apache_config.txt)
+* [for NGINX webserver vhost](https://github.com/mgazdzik/plugin-ShortcodeTracker/blob/master/docs/nginx_config.txt)
+* [for Apache2 webserver .htaccess file](https://github.com/mgazdzik/plugin-ShortcodeTracker/blob/master/docs/apache_config.txt)
 
 **Please be aware that in your case this configuration may be different, so please contact your system/webserver
 admin for advisory!**
