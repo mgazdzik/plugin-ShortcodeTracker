@@ -52,8 +52,8 @@ It's purpose is to redirect any short url hitting your server to proper API meth
 
 Below you can find example configurations
 
-* [for NGINX webserver vhost](docs/nginx_config.md)
-* [for Apache2 webserver .htaccess file](docs/apache_config.md)
+* [for NGINX webserver vhost](docs/nginx_config.txt)
+* [for Apache2 webserver .htaccess file](docs/apache_config.txt)
 
 **Please be aware that in your case this configuration may be different, so please contact your system/webserver
 admin for advisory!**
@@ -122,4 +122,3 @@ Please direct any feedback regarding plugin to Github repository issue tracker a
 Scissors icon visible in Actions report is originating from
 [https://icons8.com/](https://icons8.com/).
 
-##
