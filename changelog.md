@@ -1,4 +1,7 @@
 ## Changelog
+* 1.1.8
+    * Fix Apache .htaccess example file
+
 * 1.1.5, 1.1.4, 1.1.3
 
     * minor tweaks in plugin compatibility with Matomo plugin Marketplace
