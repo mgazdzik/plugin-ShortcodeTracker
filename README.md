@@ -28,7 +28,7 @@ Goodness coming:
 Before using, please read content in [`Setup`](https://github.com/mgazdzik/plugin-ShortcodeTracker#setup) section 
 as it contains steps required to make plugin work with your Piwik instance!
 
-## Usage
+### Usage
 
 After correctly setting up this plugin (please see section below), you are ready for shortening your Urls.
 
@@ -94,7 +94,7 @@ To select which site should collect redirects:
 
 
 
-## Backlog
+### Backlog
 
 * Add advanced report for each shortcode
     * stitch every redirect event with following action,
@@ -112,12 +112,14 @@ To select which site should collect redirects:
 * handle case when given idsite has multiple domains assigned (currently it's only for main domain URL),
 
 
-## Support
+### Support
 
 Please direct any feedback regarding plugin to Github repository issue tracker available at
 [https://github.com/mgazdzik/plugin-ShortcodeTracker/issues](https://github.com/mgazdzik/plugin-ShortcodeTracker/issues).
 
 
-## Credits
+### Credits
 Scissors icon visible in Actions report is originating from
 [https://icons8.com/](https://icons8.com/).
+
+##
