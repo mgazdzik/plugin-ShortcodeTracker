@@ -1,4 +1,7 @@
 ## Changelog
+* 1.2.0
+    * add proper LICENSE file to codebase 
+    
 * 1.1.8
     * Fix Apache .htaccess example file
 
