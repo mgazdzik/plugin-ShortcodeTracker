@@ -1,4 +1,7 @@
 ## Changelog
+* 2.0.0
+    * Updated plugin to work with latest Matomo version
+  
 * 1.2.0
     * add proper LICENSE file to codebase 
     

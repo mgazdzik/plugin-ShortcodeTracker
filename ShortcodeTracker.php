@@ -33,7 +33,7 @@ class ShortcodeTracker extends \Piwik\Plugin
     /**
      * @return array
      */
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'API.DocumentationGenerator.@hideForAll' => 'hideForAll',
