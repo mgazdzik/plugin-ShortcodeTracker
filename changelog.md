@@ -1,4 +1,7 @@
 ## Changelog
+* 2.0.1
+    * Loosen up validation of new shortcodes generation for users with Write permission to External Shortcodes Site (previously it would require SuperAdmin access)
+  
 * 2.0.0
     * Updated plugin to work with latest Matomo version
   
