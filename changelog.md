@@ -1,4 +1,6 @@
 ## Changelog
+* 1.2.1
+    * Allow any user with Write permission to generate shortcodes (previously it would require SuperAdmin access)
 * 1.2.0
     * add proper LICENSE file to codebase 
     

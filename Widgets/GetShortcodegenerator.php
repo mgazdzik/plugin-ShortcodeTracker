@@ -49,7 +49,7 @@ class GetShortcodegenerator extends Widget
          * $config->setParameters(array('myparam' => 'myvalue'));
          */
 
-        if (Piwik::isUserHasSomeAdminAccess() === false) {
+        if (Piwik::isUserHasSomeWriteAccess() === false) {
             $config->disable();
         }
         /**

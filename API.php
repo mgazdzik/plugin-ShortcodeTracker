@@ -431,6 +431,14 @@ class API extends \Piwik\Plugin\API
     {
         if ($idSite != false) {
             Piwik::checkUserHasWriteAccess($idSite);
+             return;
+        }
+        $settings = $this->getPluginSettings();
+        $externalShortcodesIdSite = $settings->getSetting(ShortcodeTracker::SHORTENER_EXTERNAL_SHORTCODES_IDSITE)->getValue();
+        if ($externalShortcodesIdSite !== null)
+        {
+            Piwik::checkUserHasWriteAccess($externalShortcodesIdSite);
+            return;
         }
         Piwik::checkUserHasSuperUserAccess();
     }
