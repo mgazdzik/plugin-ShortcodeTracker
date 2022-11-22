@@ -44,7 +44,7 @@ class RedirectTracker
 
     protected function getIdsiteForShortcode($shortcode)
     {
-        if ($shortcode['idsite'] !== "0") {
+	if ((int)$shortcode['idsite'] !== 0) {
             return $shortcode['idsite'];
         } else {
             return $this->shortcodeTrackerSettings
