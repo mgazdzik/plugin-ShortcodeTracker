@@ -1,4 +1,7 @@
 ## Changelog
+* 2.0.2
+    * Fix external redirect tracking error due to wrong type casting in PHP
+
 * 2.0.1
     * Loosen up validation of new shortcodes generation for users with Write permission to External Shortcodes Site (previously it would require SuperAdmin access)
   
