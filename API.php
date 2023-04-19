@@ -365,7 +365,9 @@ class API extends \Piwik\Plugin\API
 		$eventReport = $eventsApi
 			->getCategory($idSite, $period, $date, $segment);
 
-		if ($eventReport->getRowsCount() === 0)
+		if ($eventReport->getRowsCount() === 0 ||
+			$eventReport->getRowFromLabel(ShortcodeTracker::REDIRECT_EVENT_CATEGORY) === false
+		 )
 		{
 			return new DataTable();
 		}
