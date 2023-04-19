@@ -1,4 +1,7 @@
 ## Changelog
+* 2.0.3
+    * Fixed bug where API tried to access not existing subtable
+
 * 2.0.2
     * Fix external redirect tracking error due to wrong type casting in PHP
 
