@@ -43,6 +43,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         $setting = parent::getSetting($name);
         $value = $setting->getValue();
+        $value = $value ?? '';
         if (substr($value, -1) !== '/') {
             return $value . "/";
         }

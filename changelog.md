@@ -1,4 +1,7 @@
 ## Changelog
+* 2.0.4
+  * Compatibility with Matomo 5
+
 * 2.0.3
     * Fixed bug where API tried to access not existing subtable
 
