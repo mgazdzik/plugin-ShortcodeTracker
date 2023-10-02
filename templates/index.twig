@@ -1,15 +1,15 @@
 {% block content %}
-    <div piwik-form>
-        <h2 piwik-enriched-headline>{{ 'ShortcodeTracker_generate_shortcode_header'|translate }}</h2>
+    <div class="card"><div class="card-content">
+        <h2 class="card-title">{{ 'ShortcodeTracker_generate_shortcode_header'|translate }}</h2>
 
         <form>
-            <div piwik-field uicontrol="text" name="url_to_shorten"
+            <div vue-entry="CorePluginsAdmin.Field" uicontrol="text" name="url_to_shorten"
                  title="{{ 'ShortcodeTracker_input_url'|translate }}"
                  introduction="{{ 'ShortcodeTracker_url_to_shorten'|translate }}"
                  placeholder="ex. http://piwik.com">
             </div>
 
-            <div piwik-field uicontrol="checkbox" name="useExistingShortcodeIfAvailable"
+            <div vue-entry="CorePluginsAdmin.Field" uicontrol="checkbox" name="useExistingShortcodeIfAvailable"
                  title="{{ 'ShortcodeTracker_use_existing_shortcode_help'|translate }}"
                  introduction="{{ 'ShortcodeTracker_use_existing_shortcode_if_available'|translate }}"
                  >
@@ -20,7 +20,7 @@
             <input type="button" class="btn" value="{{ 'ShortcodeTracker_generate_shortcode'|translate }}"
                    id="url_to_shorten_submit"/>
         </form>
-    </div>
+    </div></div>
     {% import 'ajaxMacros.twig' as ajax %}
     {{ ajax.errorDiv('ajaxErrorShortcodeTrakcer') }}
     {{ ajax.loadingDiv('ajaxLoadingShortcodeTracker') }}
