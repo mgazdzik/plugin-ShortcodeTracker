@@ -1,5 +1,5 @@
 ## Changelog
-* 2.0.4
+* 5.0.0
   * Compatibility with Matomo 5
 
 * 2.0.3
