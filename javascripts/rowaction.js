@@ -34,7 +34,8 @@ DataTable_RowActions_Registry.register({
     },
 
     isAvailableOnRow: function (dataTableParams, tr) {
-        return $(tr).data('urlLabel') !== '';
+        var dataUrl = $(tr).data('url-label');
+        return typeof dataUrl !== 'undefined' && dataUrl.length > 0;
     }
 
 });

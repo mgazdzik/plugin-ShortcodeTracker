@@ -303,7 +303,7 @@ class API extends \Piwik\Plugin\API
 
 		$shortcode = false;
 
-		if ($useExistingCodeIfAvailable === "true")
+		if ($useExistingCodeIfAvailable === "1")
 		{
 			$shortcode = $this->getModel()->selectShortcodeByUrl($sanitizedUrl);
 		}
