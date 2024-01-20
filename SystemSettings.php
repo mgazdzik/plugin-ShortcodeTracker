@@ -42,7 +42,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     public function getSlashedSetting($name)
     {
         $setting = parent::getSetting($name);
-        $value = $setting->getValue();
+        $value = $setting->getValue() ?? '';
         if (substr($value, -1) !== '/') {
             return $value . "/";
         }
