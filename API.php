@@ -475,7 +475,7 @@ class API extends \Piwik\Plugin\API
 		$filter = new DataTable\Filter\ColumnCallbackAddColumn($report, 'label', 'shortcode_url', (function ($code) use ($model) {
 			$shortcode = $model->selectShortcodeByCode($code);
 
-			return $shortcode['url'];
+			return $shortcode['url'] ?? '';
 		}));
 
 		$filter->filter($report);
