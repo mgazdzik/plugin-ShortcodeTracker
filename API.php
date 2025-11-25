@@ -403,16 +403,19 @@ class API extends \Piwik\Plugin\API
 			return new DataTable();
 		}
 
-		$shortcodeReportIdSubtable = $eventReport
-			->getRowFromLabel(ShortcodeTracker::REDIRECT_EVENT_CATEGORY)
-			->getIdSubDataTable();
+		$shortcodeReportRow = $eventReport
+			->getRowFromLabel(ShortcodeTracker::REDIRECT_EVENT_CATEGORY);
+		
+		if($shortcodeReportRow){
+			$shortcodeReportIdSubtable = $shortcodeReport->getIdSubDataTable();
+			
+			if ($shortcodeReportIdSubtable)
+			{
+				$report = $eventsApi->getNameFromCategoryId($idSite, $period, $date, $shortcodeReportIdSubtable);
+				$enrichedReport = $this->enrichReportWithShortcodeUrls($report);
 
-		if ($shortcodeReportIdSubtable)
-		{
-			$report = $eventsApi->getNameFromCategoryId($idSite, $period, $date, $shortcodeReportIdSubtable);
-			$enrichedReport = $this->enrichReportWithShortcodeUrls($report);
-
-			return $enrichedReport;
+				return $enrichedReport;
+			}
 		}
 
 		return false;
