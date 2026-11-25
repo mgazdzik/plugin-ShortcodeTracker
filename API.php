@@ -346,12 +346,12 @@ class API extends \Piwik\Plugin\API
 	{
 		$shortCode = $this->getCache()->getShortcode($code);
 
-		Piwik::postEvent(ShortcodeTracker::TRACK_REDIRECT_VISIT_EVENT, array($shortCode));
-
-		if ($shortCode === null)
+		if (empty($shortCode))
 		{
 			throw new UnableToRedirectException(Piwik::translate('ShortcodeTracker_unable_to_perform_redirect'));
 		}
+
+		Piwik::postEvent(ShortcodeTracker::TRACK_REDIRECT_VISIT_EVENT, array($shortCode));
 
 		header('Location: ' . $shortCode['url']);
 	}

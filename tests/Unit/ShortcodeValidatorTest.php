@@ -16,14 +16,14 @@ use Piwik\Plugins\ShortcodeTracker\Component\ShortcodeValidator;
  * @group ShortcodeValidator
  * @group Plugins
  */
-class ShortcodeValidatorTest extends \PHPUnit_Framework_TestCase
+class ShortcodeValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ShortcodeValidator
      */
     private $component;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->component = new ShortcodeValidator();
     }
