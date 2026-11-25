@@ -16,14 +16,14 @@ use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
  * @group UrlValidator
  * @group Plugins
  */
-class ShortcodeUrlValidatorTest extends \PHPUnit_Framework_TestCase
+class ShortcodeUrlValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var UrlValidator
      */
     private $component;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->component = new UrlValidator();
     }

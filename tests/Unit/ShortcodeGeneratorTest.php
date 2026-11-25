@@ -17,7 +17,7 @@ use Piwik\Plugins\ShortcodeTracker\Component\UrlValidator;
  * @group ShortcodeGenerator
  * @group Plugins
  */
-class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
+class ShortcodeGeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Generator
@@ -58,7 +58,7 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $modelMock = $this->getModelMockForUniqueTest();
         $urlValidator = new UrlValidator();
-        $shortcodeValidator = $this->getMock(ShortcodeValidator::class);
+        $shortcodeValidator = $this->createMock(ShortcodeValidator::class);
         $shortcodeValidator->method('validate')->willReturn(true);
         $sitesManagerAPI = $this->getSitesManagerAPIMock();
         $this->component = new Generator($modelMock, $urlValidator, $shortcodeValidator, $sitesManagerAPI);
@@ -104,13 +104,13 @@ class ShortcodeGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     private function getModelMockWithResponse($response)
     {
         $mock = $this->getMockBuilder('Piwik\Plugins\ShortcodeTracker\Model\Model')
             ->disableOriginalConstructor()
-            ->setMethods(array('selectShortcodeByCode'))
+            ->onlyMethods(array('selectShortcodeByCode'))
             ->getMock();
 
         $mock->expects($this->any())

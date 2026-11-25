@@ -13,7 +13,7 @@
     }
   ],
   "require": {
-    "piwik/piwik": ">=4.1.0",
-    "piwik/piwik-php-tracker": "dev-master"
+    "php": ">=8.1",
+    "matomo/matomo": ">=6.0.0-b1,<7.0.0-b1"
   }
 }

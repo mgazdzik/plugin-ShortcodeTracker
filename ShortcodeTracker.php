@@ -36,21 +36,12 @@ class ShortcodeTracker extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'API.DocumentationGenerator.@hideForAll' => 'hideForAll',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             self::TRACK_REDIRECT_VISIT_EVENT => 'trackRedirectAction',
             'ViewDataTable.configure' => 'dataTableConfigure',
         );
-    }
-
-    /**
-     * @param bool $hide
-     */
-    public function hideForAll(&$hide)
-    {
-        $hide = true;
     }
 
     /**

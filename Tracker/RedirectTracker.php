@@ -21,8 +21,8 @@ class RedirectTracker
     {
         $baseUrl = $this->shortcodeTrackerSettings->getSlashedSetting(ShortcodeTracker::SHORTENER_URL_SETTING);
 
-        $idSite = $this->getIdsiteForShortcode($shortcode);
-        if ($idSite !== "0") {
+        $idSite = (int) $this->getIdsiteForShortcode($shortcode);
+        if ($idSite > 0) {
             $piwikTracker = $this->getPiwikTracker($idSite);
             $piwikTracker->setUrl($shortcode['url']);
             $piwikTracker->setUrlReferrer($baseUrl . $shortcode['code']);
@@ -44,7 +44,7 @@ class RedirectTracker
 
     protected function getIdsiteForShortcode($shortcode)
     {
-	if ((int)$shortcode['idsite'] !== 0) {
+        if ((int)$shortcode['idsite'] !== 0) {
             return $shortcode['idsite'];
         } else {
             return $this->shortcodeTrackerSettings

@@ -41,7 +41,7 @@ class ShortcodeApiTest extends SystemTestCase
      */
     private $sitesManagerApi;
 
-    public function setUp()
+    public function setUp(): void
     {
         Access::getInstance()->setSuperUserAccess(true);
         $this->initializeModelMock();
@@ -185,7 +185,7 @@ class ShortcodeApiTest extends SystemTestCase
         try {
             $this->api->performRedirectForShortcode('123zxc');
         } catch (\Exception $e) {
-            $this->assertContains('Cannot modify header information - headers already sent by', $e->getMessage());
+            $this->assertStringContainsString('Cannot modify header information - headers already sent by', $e->getMessage());
         }
 
     }
@@ -195,8 +195,8 @@ class ShortcodeApiTest extends SystemTestCase
         $this->modelMock->expects($this->once())
             ->method('selectShortcodeByCode')
             ->willReturn(null);
-        $this->setExpectedException('Piwik\Plugins\ShortcodeTracker\Exception\UnableToRedirectException',
-            'Oops, couldn\'t complete redirect! Please try using valid shortcode.');
+        $this->expectException('Piwik\Plugins\ShortcodeTracker\Exception\UnableToRedirectException');
+        $this->expectExceptionMessage('Oops, couldn\'t complete redirect! Please try using valid shortcode.');
 
         $this->api->performRedirectForShortcode('123zxc');
     }
